@@ -1,11 +1,3 @@
-moodletdmu-mod_scheduler19
-==========================
-
-TDMU specail edition of the Appointment Scheduler for Moodle version 1.9
-
-==========================
-Original readme.txt:
---------------------------------------------------------------------------
 Appointment Scheduler for Moodle
 
 This is a completely redrawn scheduler module that allows teachers to publish
