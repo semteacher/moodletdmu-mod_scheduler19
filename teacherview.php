@@ -10,6 +10,7 @@
 * @usecase addslot
 * @usecase updateslot
 * @usecase addsession
+* @usecase addaperiodsession
 * @usecase schedule
 * @usecase schedulegroup
 * @usecase viewstatistics
@@ -234,6 +235,50 @@ if ($action == 'addsession') {
     print_heading(get_string('addsession', 'scheduler'));
     print_simple_box_start('center', '', '');
     include_once('addslotsform.html');
+    print_simple_box_end();
+    echo '<br />';
+    
+    // return code for include
+    return -1;
+}
+/******************************** Add aperiodic session multiple slots form ******************************/
+if ($action == 'addaperiodsession') {
+    // if there is some error from controller, display it
+    if (!empty($errors)){
+        $errorstr = '';
+        foreach($errors as $anError){
+            $errorstr .= $anError->message;
+        }
+        print_simple_box($errorstr, 'center', '70%', '', 5, 'scheduler_errorbox errorbox');
+    }
+    
+    if (!empty($errors)){
+        get_session_data($data);
+        $form = &$data;
+    } else {
+        $form->rangestart = time();
+        $form->rangeend = time();
+        $form->timestart = time();
+        $form->timeend = time() + HOURSECS;
+        $form->hideuntil = $scheduler->timemodified;
+        $form->duration = $scheduler->defaultslotduration;
+        $form->forcewhenoverlap = 0;
+        $form->teacherid = $USER->id;
+        $form->exclusivity = 1;
+        $form->duration = $scheduler->defaultslotduration;
+        $form->reuse = 1;
+        $form->monday = 1;
+        $form->tuesday = 1;
+        $form->wednesday = 1;
+        $form->thursday = 1;
+        $form->friday = 1;
+        $form->saturday = 0;
+        $form->sunday = 0;
+    }
+
+    print_heading(get_string('addaperiodsession', 'scheduler'));
+    print_simple_box_start('center', '', '');
+    include_once('addaperiodslotsform.html');
     print_simple_box_end();
     echo '<br />';
     
@@ -576,6 +621,7 @@ if ($slots){
 }
 
 $straddsession = get_string('addsession', 'scheduler');
+$straddaperiodsession = get_string('addaperiodsession', 'scheduler');
 $straddsingleslot = get_string('addsingleslot', 'scheduler');
 $strdownloadexcel = get_string('downloadexcel', 'scheduler');
 

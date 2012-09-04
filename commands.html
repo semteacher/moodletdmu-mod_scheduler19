@@ -1,7 +1,7 @@
 
 <table>
     <tr>
-        <td colspan="2">
+        <td colspan="3">
             <?php print_heading_block(get_string('add')) ?>
         </td>
 <?php
@@ -21,6 +21,14 @@ if ($displaydeletebuttons){
                 <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
                 <input type="hidden" name="page" value="<?php p($page) ?>" />
                 <input type="submit" name="go_btn" value="<?php echo $straddsession ?>" />
+            </form>
+         </td>
+	<td>
+            <form action="view.php" method="post" name="addaperiodsessionform">
+                <input type="hidden" name="what" value="addaperiodsession" />
+                <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
+                <input type="hidden" name="page" value="<?php p($page) ?>" />
+                <input type="submit" name="go_btn" value="<?php echo $straddaperiodsession ?>" />
             </form>
          </td>
          <td>

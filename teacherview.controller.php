@@ -9,6 +9,7 @@
 *
 * @usecase doaddupdateslot
 * @usecase doaddsession
+* @usecase doaddaperiodsession
 * @usecase deleteslot
 * @usecase deleteslots
 * @usecase saveseen
@@ -372,6 +373,176 @@ switch ($action) {
         print_heading(get_string('slotsadded', 'scheduler', $countslots));
         break;
     }
+/************************************ Saving a aperiod session with slots ********************************/
+    case 'doaddaperiodsession':{
+        // This creates aperiod sessions using the data submitted by the user via the form on add.html
+        get_session_data($data);
+
+        $fordays = (($data->rangeend - $data->rangestart) / DAYSECS);
+        
+        $errors = array();
+
+        /// range is negative
+        if ($fordays < 0){
+            $erroritem->message = get_string('negativerange', 'scheduler');
+            $erroritem->on = 'rangeend';
+            $errors[] = $erroritem;
+        }
+
+        if ($data->teacherid == 0){
+            unset($erroritem);
+            $erroritem->message = get_string('noteacherforslot', 'scheduler');
+            $erroritem->on = 'teacherid';
+            $errors[] = $erroritem;
+        }
+
+        /// first slot is in the past
+        if ($data->rangestart < time() - DAYSECS) {
+            unset($erroritem);
+            $erroritem->message = get_string('startpast', 'scheduler');
+            $erroritem->on = 'rangestart';
+            $errors[] = $erroritem;
+        }
+
+        // first error trap. Ask to correct that first
+        if (count($errors)){
+            $action = 'addsession';
+            break;
+        }
+        
+
+        /// make a base slot for generating
+        $slot->appointmentlocation = $data->appointmentlocation;
+        $slot->exclusivity = $data->exclusivity;
+        $slot->reuse = $data->reuse;
+        $slot->duration = $data->duration;
+        $slot->schedulerid = $scheduler->id;
+        $slot->timemodified = time();
+        $slot->teacherid = $data->teacherid;
+
+        /// check if overlaps. Check also if some slots are in allowed day range
+        $startfrom = $data->rangestart;
+        $noslotsallowed = true;
+        for ($d = 0; $d <= $fordays; $d ++){
+            $eventdate = usergetdate($startfrom + ($d * 86400));
+            $dayofweek = date('l', $startfrom + ($d * 86400));
+            if ((($dayofweek == 'Monday') && ($data->monday == 1)) ||
+                (($dayofweek == 'Tuesday') && ($data->tuesday == 1)) || 
+                (($dayofweek == 'Wednesday') && ($data->wednesday == 1)) ||
+                (($dayofweek == 'Thursday') && ($data->thursday == 1)) || 
+                (($dayofweek == 'Friday') && ($data->friday == 1)) ||
+                (($dayofweek == 'Saturday') && ($data->saturday == 1)) ||
+                (($dayofweek == 'Sunday') && ($data->sunday == 1))){
+                $noslotsallowed = false;
+                $data->starttime = $startfrom + ($d * 86400);
+                $conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, false, SCHEDULER_ALL);
+                if (!$data->forcewhenoverlap){
+                    if ($conflicts){
+                        unset($erroritem);
+                        $erroritem->message = get_string('overlappings', 'scheduler');
+                        $erroritem->on = 'range';
+                        $errors[] = $erroritem;
+                    }
+                }
+            }
+        }
+        
+        /// Finally check if some slots are allowed (an error is thrown to ask care to this situation)
+        if ($noslotsallowed){
+            unset($erroritem);
+            $erroritem->message = get_string('allslotsincloseddays', 'scheduler');
+            $erroritem->on = 'days';
+            $errors[] = $erroritem;
+        }
+
+        // second error trap. For last error cases.
+        if (count($errors)){
+            $action = 'addsession';
+            break;
+        }
+
+        /// Now create as many slots of $duration as will fit between $starttime and $endtime and that do not conflicts
+        $countslots = 0;
+        $couldnotcreateslots = '';
+        $startfrom = $data->timestart;
+        for ($d = 0; $d <= $fordays; $d ++){
+            $eventdate = usergetdate($startfrom + ($d * DAYSECS));
+            $dayofweek = date('l', $startfrom + ($d * DAYSECS));
+            if ((($dayofweek == 'Monday') && ($data->monday == 1)) ||
+                (($dayofweek == 'Tuesday') && ($data->tuesday == 1)) ||
+                (($dayofweek == 'Wednesday') && ($data->wednesday == 1)) || 
+                (($dayofweek == 'Thursday') && ($data->thursday == 1)) ||
+                (($dayofweek == 'Friday') && ($data->friday == 1)) ||
+                (($dayofweek == 'Saturday') && ($data->saturday == 1)) ||
+                (($dayofweek == 'Sunday') && ($data->sunday == 1))){
+                $slot->starttime = $startfrom + ($d * DAYSECS);
+                $data->timestart = $startfrom + ($d * DAYSECS);
+                $data->timeend = make_timestamp(date('Y',$data->timestart), date('m',$data->timestart), date('d',$data->timestart), $data->endhour, $data->endminute);
+
+                // this corrects around midnight bug
+                if ($data->timestart > $data->timeend){
+                    $data->timeend += DAYSECS;
+                }
+                if ($data->displayfrom == 'now'){
+                    $slot->hideuntil = time();
+                } 
+                else {
+                    $slot->hideuntil = make_timestamp($eventdate['year'], $eventdate['mon'], $eventdate['mday'], 6, 0) - $data->displayfrom;
+                }
+                if ($data->emailfrom == 'never'){
+                    $slot->emaildate = 0;
+                } 
+                else {
+                    $slot->emaildate = make_timestamp($eventdate['year'], $eventdate['mon'], $eventdate['mday'], 0, 0) - $data->emailfrom;
+                }
+                // echo " generating from " .userdate($slot->starttime)." till ".userdate($data->timeend). " ";
+                // echo " generating on " . ($data->timeend - $slot->starttime) / 60;
+                while ($slot->starttime <= $data->timeend - $data->duration * 60) {
+                    $conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, false, SCHEDULER_ALL);
+                    if ($conflicts) {
+                        if (!$data->forcewhenoverlap){
+                            print_string('conflictingslots', 'scheduler');
+                            echo '<ul>';
+                            foreach ($conflicts as $aConflict){
+                                $sql = "
+                                   SELECT
+                                      c.fullname,
+                                      c.shortname,
+                                      sl.starttime
+                                   FROM
+                                      {$CFG->prefix}course AS c,
+                                      {$CFG->prefix}scheduler AS s,
+                                      {$CFG->prefix}scheduler_slots AS sl
+                                   WHERE
+                                      s.course = c.id AND
+                                      sl.schedulerid = s.id AND
+                                      sl.id = {$aConflict->id}                                 
+                                ";
+                                $conflictinfo = get_record_sql($sql);
+                                echo '<li> ' . userdate($conflictinfo->starttime) . ' ' . usertime($conflictinfo->starttime) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
+                            }
+                            echo '</ul><br/>';
+                        }
+                        else{ // we force, so delete all conflicting before inserting
+                            foreach($conflicts as $conflict){
+                                scheduler_delete_slot($conflict->id);
+                            }
+                        }
+                    } 
+                    else {
+                        if (!insert_record('scheduler_slots', $slot, false)) {
+                            error('Could not insert slot into database. This is a software error you should report to maintainers.');
+                        }
+                        $countslots++;
+                    }
+                    $slot->starttime += $data->duration * 60;
+                    $data->timestart += $data->duration * 60;
+                }
+            }
+        }
+        print_heading(get_string('slotsadded', 'scheduler', $countslots));
+        break;
+    }	
 /************************************ Deleting a slot ***********************************************/
     case 'deleteslot': {
         $slotid = required_param('slotid', PARAM_INT);
