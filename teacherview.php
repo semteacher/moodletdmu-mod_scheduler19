@@ -257,7 +257,7 @@ if ($action == 'addaperiodsession') {
         $form = &$data;
     } else {
         $form->rangestart = time();
-        $form->rangeend = time();
+        $form->rangeend = time();//todo-delete
         $form->timestart = time();
         $form->timeend = time() + HOURSECS;
         $form->hideuntil = $scheduler->timemodified;
@@ -266,14 +266,14 @@ if ($action == 'addaperiodsession') {
         $form->teacherid = $USER->id;
         $form->exclusivity = 1;
         $form->duration = $scheduler->defaultslotduration;
-        $form->reuse = 1;
-        $form->monday = 1;
-        $form->tuesday = 1;
-        $form->wednesday = 1;
-        $form->thursday = 1;
-        $form->friday = 1;
-        $form->saturday = 0;
-        $form->sunday = 0;
+        $form->reuse = 1;//todo-delete
+        $form->monday = 1;//todo-delete
+        $form->tuesday = 1;//todo-delete
+        $form->wednesday = 1;//todo-delete
+        $form->thursday = 1;//todo-delete
+        $form->friday = 1;//todo-delete
+        $form->saturday = 0;//todo-delete
+        $form->sunday = 0;//todo-delete
     }
 
     print_heading(get_string('addaperiodsession', 'scheduler'));

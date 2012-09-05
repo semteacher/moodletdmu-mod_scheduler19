@@ -378,10 +378,11 @@ switch ($action) {
         // This creates aperiod sessions using the data submitted by the user via the form on add.html
         get_session_data($data);
 
-        $fordays = (($data->rangeend - $data->rangestart) / DAYSECS);
+        $fordays = (($data->rangeend - $data->rangestart) / DAYSECS);//todo-delete
         
         $errors = array();
 
+		//todo-delete this if
         /// range is negative
         if ($fordays < 0){
             $erroritem->message = get_string('negativerange', 'scheduler');

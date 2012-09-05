@@ -1,6 +1,18 @@
 <!-- This page defines the form to add an appointment session -->
 <!-- it is used from view.php -->
-
+<style type="text/css">@import "<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.css" ?>";</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.js" ?>"></script> 
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.plus.js" ?>"></script>
+ 
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.js" ?>"></script>
+<script type="text/javascript">
+$(function() {
+	$('#multiInlinePicker').calendarsPicker({
+    multiSelect: 999, minDate: '9/5/2012', monthsToShow: 4, monthsToStep: 4, 
+    prevText: '<Prev months', nextText: 'Next months>'});
+});
+</script
 <form name="add" method="post" action="view.php">
 <input type="hidden" name="what" value="doaddaperiodsession" />
 <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
@@ -13,6 +25,9 @@ if (!has_capability('mod/scheduler:canscheduletootherteachers', $context)){
 }
 ?>
 <center>
+
+<div id="multiInlinePicker"></div>
+
 <table cellpadding="5">
     <tr>
         <td align="right"><b><?php print_string('date', 'scheduler') ?>:</b></td>
