@@ -88,6 +88,49 @@ function get_session_data(&$form){
     $form->displayfrom = required_param('displayfrom', PARAM_CLEAN);
 }
 
+/**
+*
+*/
+function get_aperiod_session_data(&$form){
+//    if (!$form->rangestart = optional_param('rangestart', '', PARAM_INT)){    
+//        $year = required_param('startyear', PARAM_INT);
+//        $month = required_param('startmonth', PARAM_INT);
+//        $day = required_param('startday', PARAM_INT);
+//        $form->rangestart = make_timestamp($year, $month, $day);
+//        $form->starthour = required_param('starthour', PARAM_INT);
+//        $form->startminute = required_param('startminute', PARAM_INT);
+//        $form->timestart = make_timestamp($year, $month, $day, $form->starthour, $form->startminute);
+//   }
+//    if (!$form->rangeend = optional_param('rangeend', '', PARAM_INT)){    
+//        $year = required_param('endyear', PARAM_INT);
+//        $month = required_param('endmonth', PARAM_INT);
+//        $day = required_param('endday', PARAM_INT);
+//        $form->rangeend = make_timestamp($year, $month, $day);
+//        $form->endhour = required_param('endhour', PARAM_INT);
+//        $form->endminute = required_param('endminute', PARAM_INT);
+//        $form->timeend = make_timestamp($year, $month, $day, $form->endhour, $form->endminute);
+//    }
+//    $form->monday = optional_param('monday', 0, PARAM_INT);			//todo-need delete
+//    $form->tuesday = optional_param('tuesday', 0, PARAM_INT);		//todo-need delete
+//    $form->wednesday = optional_param('wednesday', 0, PARAM_INT);	//todo-need delete
+//    $form->thursday = optional_param('thursday', 0, PARAM_INT);		//todo-need delete
+//    $form->friday = optional_param('friday', 0, PARAM_INT);			//todo-need delete
+//    $form->saturday = optional_param('saturday', 0, PARAM_INT);		//todo-need delete
+//    $form->sunday = optional_param('sunday', 0, PARAM_INT);			//todo-need delete
+	$form->listdatestxt = required_param('listdates', PARAM_TEXT);
+    $form->forcewhenoverlap = required_param('forcewhenoverlap', PARAM_INT);
+    $form->exclusivity = required_param('exclusivity', PARAM_INT);
+    $form->reuse = required_param('reuse', PARAM_INT);
+    $form->divide = optional_param('divide', 0, PARAM_INT);
+    $form->duration = optional_param('duration', 15, PARAM_INT);
+    $form->teacherid = required_param('teacherid', PARAM_INT);
+    $form->appointmentlocation = optional_param('appointmentlocation', '', PARAM_CLEAN);
+    $form->emailfrom = required_param('emailfrom', PARAM_CLEAN);
+    $form->displayfrom = required_param('displayfrom', PARAM_CLEAN);
+	
+	print_r($listdatestxt);//debug
+}
+
     /**
     *
     */
@@ -253,7 +296,7 @@ if ($action == 'addaperiodsession') {
     }
     
     if (!empty($errors)){
-        get_session_data($data);
+        get_aperiod_session_data($data);
         $form = &$data;
     } else {
         $form->rangestart = time();
@@ -266,7 +309,7 @@ if ($action == 'addaperiodsession') {
         $form->teacherid = $USER->id;
         $form->exclusivity = 1;
         $form->duration = $scheduler->defaultslotduration;
-        $form->reuse = 1;//todo-delete
+        $form->reuse = 1;
         $form->monday = 1;//todo-delete
         $form->tuesday = 1;//todo-delete
         $form->wednesday = 1;//todo-delete

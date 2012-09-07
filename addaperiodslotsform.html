@@ -2,18 +2,27 @@
 <!-- it is used from view.php -->
 <style type="text/css">@import "<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.css" ?>";</style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.js" ?>"></script> 
-<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.plus.js" ?>"></script>
- 
-<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.js" ?>"></script>
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.js" ?>">
+</script> 
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.plus.js" ?>">
+</script>
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.js" ?>">
+</script>
 <script type="text/javascript">
-$(function() {
-	$('#multiInlinePicker').calendarsPicker({
-    multiSelect: 999, minDate: '9/5/2012', monthsToShow: 4, monthsToStep: 4, 
-    prevText: '<Prev months', nextText: 'Next months>'});
+$(function()
+{
+	$('#multiInlinePicker').calendarsPicker({dateFormat: 'dd/mm/yyyy', 
+    multiSelect: 999, monthsToShow: 4, monthsToStep: 4, 
+    prevText: '<Prev months', nextText: 'Next months>', minDate: '<?php echo date("d/m/Y",$form->rangestart) ?>'});
 });
-</script
-<form name="add" method="post" action="view.php">
+function getMultipleDates()
+{
+var listdates = $('#multiInlinePicker').calendarsPicker('getDate');
+    $('#getlistdates').val(listdates || '');
+}
+</script>
+
+<form name="add" method="post" action="view.php" onSubmit=getMultipleDates()>
 <input type="hidden" name="what" value="doaddaperiodsession" />
 <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
 <input type="hidden" name="page" value="<?php p($page) ?>" />
@@ -27,33 +36,10 @@ if (!has_capability('mod/scheduler:canscheduletootherteachers', $context)){
 <center>
 
 <div id="multiInlinePicker"></div>
+<input type="hidden" id="getlistdates" name="listdates" value="" />
 
 <table cellpadding="5">
-    <tr>
-        <td align="right"><b><?php print_string('date', 'scheduler') ?>:</b></td>
-        <td align="left" <?php scheduler_print_error_class(@$errors, 'rangestart,range') ?> >
-            <?php print_date_selector('startday', 'startmonth', 'startyear', $form->rangestart); ?>
-        </td>
-    </tr>
-    <tr valign="top">
-        <td align="right"><b><?php print_string('enddate', 'scheduler') ?>:</b></td>
-        <td align="left" <?php scheduler_print_error_class(@$errors, 'rangeend,range') ?> >
-            <?php print_date_selector('endday', 'endmonth', 'endyear', $form->rangeend); ?>
-        </td>
-    </tr>
     <div id="advanced" name="advanced" style="visibility:visible;">
-    <tr valign="top">
-        <td align="right"><b><?php print_string('addondays', 'scheduler') ?>:</b></td>
-        <td align="left" <?php scheduler_print_error_class(@$errors, 'days,range') ?> >
-            <input type="checkbox" <?php echo ($form->monday) ? 'checked="checked"' : '' ; ?> name="monday" value="1" /> <?php print_string('monday', 'scheduler') ; ?><br>
-            <input type="checkbox" <?php echo ($form->tuesday) ? 'checked="checked"' : '' ; ?> name="tuesday" value="1" /> <?php print_string('tuesday', 'scheduler');  ?><br>
-            <input type="checkbox" <?php echo ($form->wednesday) ? 'checked="checked"' : '' ; ?> name="wednesday" value="1" /> <?php print_string('wednesday', 'scheduler');  ?><br>
-            <input type="checkbox" <?php echo ($form->thursday) ? 'checked="checked"' : '' ; ?> name="thursday" value="1" /> <?php print_string('thursday', 'scheduler')  ?><br>
-            <input type="checkbox" <?php echo ($form->friday) ? 'checked="checked"' : '' ; ?> name="friday" value="1" /> <?php print_string('friday', 'scheduler')  ?><br>
-            <input type="checkbox" <?php echo ($form->saturday) ? 'checked="checked"' : '' ; ?> name="saturday" value="1" /> <?php print_string('saturday', 'scheduler')  ?><br>
-            <input type="checkbox" <?php echo ($form->sunday) ? 'checked="checked"' : '' ; ?> name="sunday" value="1" /> <?php print_string('sunday', 'scheduler')  ?>
-        </td>
-    </tr>
     <tr valign="top">
         <td align="right"><b><?php print_string('starttime', 'scheduler') ?>:</b></td>
         <td align="left">

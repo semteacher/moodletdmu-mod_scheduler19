@@ -376,19 +376,22 @@ switch ($action) {
 /************************************ Saving a aperiod session with slots ********************************/
     case 'doaddaperiodsession':{
         // This creates aperiod sessions using the data submitted by the user via the form on add.html
-        get_session_data($data);
+        get_aperiod_session_data($data);
 
-        $fordays = (($data->rangeend - $data->rangestart) / DAYSECS);//todo-delete
-        
+        //$fordays = (($data->rangeend - $data->rangestart) / DAYSECS);//todo-delete
+        $listdates = explode(",",$data->listdatestxt);
+		
+		print_r($listdates);//debug
+		
         $errors = array();
 
 		//todo-delete this if
         /// range is negative
-        if ($fordays < 0){
-            $erroritem->message = get_string('negativerange', 'scheduler');
-            $erroritem->on = 'rangeend';
-            $errors[] = $erroritem;
-        }
+//        if ($fordays < 0){
+//            $erroritem->message = get_string('negativerange', 'scheduler');
+//            $erroritem->on = 'rangeend';
+//            $errors[] = $erroritem;
+//        }
 
         if ($data->teacherid == 0){
             unset($erroritem);
