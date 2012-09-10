@@ -377,21 +377,8 @@ switch ($action) {
     case 'doaddaperiodsession':{
         // This creates aperiod sessions using the data submitted by the user via the form on add.html
         get_aperiod_session_data($data);
-
-        //$fordays = (($data->rangeend - $data->rangestart) / DAYSECS);//todo-delete
-        $listdates = explode(",",$data->listdatestxt);
-		
-		print_r($listdates);//debug
 		
         $errors = array();
-
-		//todo-delete this if
-        /// range is negative
-//        if ($fordays < 0){
-//            $erroritem->message = get_string('negativerange', 'scheduler');
-//            $erroritem->on = 'rangeend';
-//            $errors[] = $erroritem;
-//        }
 
         if ($data->teacherid == 0){
             unset($erroritem);
@@ -410,11 +397,10 @@ switch ($action) {
 
         // first error trap. Ask to correct that first
         if (count($errors)){
-            $action = 'addsession';
+            $action = 'addaperiodsession';
             break;
         }
         
-
         /// make a base slot for generating
         $slot->appointmentlocation = $data->appointmentlocation;
         $slot->exclusivity = $data->exclusivity;
@@ -424,21 +410,13 @@ switch ($action) {
         $slot->timemodified = time();
         $slot->teacherid = $data->teacherid;
 
-        /// check if overlaps. Check also if some slots are in allowed day range
+        /// check if overlaps.
         $startfrom = $data->rangestart;
+		
         $noslotsallowed = true;
-        for ($d = 0; $d <= $fordays; $d ++){
-            $eventdate = usergetdate($startfrom + ($d * 86400));
-            $dayofweek = date('l', $startfrom + ($d * 86400));
-            if ((($dayofweek == 'Monday') && ($data->monday == 1)) ||
-                (($dayofweek == 'Tuesday') && ($data->tuesday == 1)) || 
-                (($dayofweek == 'Wednesday') && ($data->wednesday == 1)) ||
-                (($dayofweek == 'Thursday') && ($data->thursday == 1)) || 
-                (($dayofweek == 'Friday') && ($data->friday == 1)) ||
-                (($dayofweek == 'Saturday') && ($data->saturday == 1)) ||
-                (($dayofweek == 'Sunday') && ($data->sunday == 1))){
+		for ($d = 0; $d <= count($data->listdates)-1; $d ++){
                 $noslotsallowed = false;
-                $data->starttime = $startfrom + ($d * 86400);
+				$data->starttime = strtotime($data->listdates[$d]);		
                 $conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, false, SCHEDULER_ALL);
                 if (!$data->forcewhenoverlap){
                     if ($conflicts){
@@ -448,9 +426,8 @@ switch ($action) {
                         $errors[] = $erroritem;
                     }
                 }
-            }
         }
-        
+		
         /// Finally check if some slots are allowed (an error is thrown to ask care to this situation)
         if ($noslotsallowed){
             unset($erroritem);
@@ -461,7 +438,7 @@ switch ($action) {
 
         // second error trap. For last error cases.
         if (count($errors)){
-            $action = 'addsession';
+            $action = 'addaperiodsession';
             break;
         }
 
@@ -469,18 +446,13 @@ switch ($action) {
         $countslots = 0;
         $couldnotcreateslots = '';
         $startfrom = $data->timestart;
-        for ($d = 0; $d <= $fordays; $d ++){
-            $eventdate = usergetdate($startfrom + ($d * DAYSECS));
-            $dayofweek = date('l', $startfrom + ($d * DAYSECS));
-            if ((($dayofweek == 'Monday') && ($data->monday == 1)) ||
-                (($dayofweek == 'Tuesday') && ($data->tuesday == 1)) ||
-                (($dayofweek == 'Wednesday') && ($data->wednesday == 1)) || 
-                (($dayofweek == 'Thursday') && ($data->thursday == 1)) ||
-                (($dayofweek == 'Friday') && ($data->friday == 1)) ||
-                (($dayofweek == 'Saturday') && ($data->saturday == 1)) ||
-                (($dayofweek == 'Sunday') && ($data->sunday == 1))){
-                $slot->starttime = $startfrom + ($d * DAYSECS);
-                $data->timestart = $startfrom + ($d * DAYSECS);
+		for ($d = 0; $d <= count($data->listdates)-1; $d ++){
+				$year = date("Y", strtotime($data->listdates[$d]));
+				$month = date("m", strtotime($data->listdates[$d]));
+				$day = date("d", strtotime($data->listdates[$d]));
+				$slot->starttime = make_timestamp($year, $month, $day, $data->starthour, $data->startminute);
+				$eventdate = usergetdate($slot->starttime);
+                $data->timestart = $slot->starttime;
                 $data->timeend = make_timestamp(date('Y',$data->timestart), date('m',$data->timestart), date('d',$data->timestart), $data->endhour, $data->endminute);
 
                 // this corrects around midnight bug
@@ -499,8 +471,6 @@ switch ($action) {
                 else {
                     $slot->emaildate = make_timestamp($eventdate['year'], $eventdate['mon'], $eventdate['mday'], 0, 0) - $data->emailfrom;
                 }
-                // echo " generating from " .userdate($slot->starttime)." till ".userdate($data->timeend). " ";
-                // echo " generating on " . ($data->timeend - $slot->starttime) / 60;
                 while ($slot->starttime <= $data->timeend - $data->duration * 60) {
                     $conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, false, SCHEDULER_ALL);
                     if ($conflicts) {
@@ -542,7 +512,7 @@ switch ($action) {
                     $slot->starttime += $data->duration * 60;
                     $data->timestart += $data->duration * 60;
                 }
-            }
+   //         }
         }
         print_heading(get_string('slotsadded', 'scheduler', $countslots));
         break;

@@ -92,32 +92,28 @@ function get_session_data(&$form){
 *
 */
 function get_aperiod_session_data(&$form){
-//    if (!$form->rangestart = optional_param('rangestart', '', PARAM_INT)){    
-//        $year = required_param('startyear', PARAM_INT);
-//        $month = required_param('startmonth', PARAM_INT);
-//        $day = required_param('startday', PARAM_INT);
-//        $form->rangestart = make_timestamp($year, $month, $day);
-//        $form->starthour = required_param('starthour', PARAM_INT);
-//        $form->startminute = required_param('startminute', PARAM_INT);
-//        $form->timestart = make_timestamp($year, $month, $day, $form->starthour, $form->startminute);
-//   }
-//    if (!$form->rangeend = optional_param('rangeend', '', PARAM_INT)){    
-//        $year = required_param('endyear', PARAM_INT);
-//        $month = required_param('endmonth', PARAM_INT);
-//        $day = required_param('endday', PARAM_INT);
-//        $form->rangeend = make_timestamp($year, $month, $day);
-//        $form->endhour = required_param('endhour', PARAM_INT);
-//        $form->endminute = required_param('endminute', PARAM_INT);
-//        $form->timeend = make_timestamp($year, $month, $day, $form->endhour, $form->endminute);
-//    }
-//    $form->monday = optional_param('monday', 0, PARAM_INT);			//todo-need delete
-//    $form->tuesday = optional_param('tuesday', 0, PARAM_INT);		//todo-need delete
-//    $form->wednesday = optional_param('wednesday', 0, PARAM_INT);	//todo-need delete
-//    $form->thursday = optional_param('thursday', 0, PARAM_INT);		//todo-need delete
-//    $form->friday = optional_param('friday', 0, PARAM_INT);			//todo-need delete
-//    $form->saturday = optional_param('saturday', 0, PARAM_INT);		//todo-need delete
-//    $form->sunday = optional_param('sunday', 0, PARAM_INT);			//todo-need delete
-	$form->listdatestxt = required_param('listdates', PARAM_TEXT);
+	$listdatestxt = required_param('listdates', PARAM_TEXT);//string var.
+	$form->listdates = explode(",",$listdatestxt);			//array of string dates
+	
+    if (!$form->rangestart = optional_param('rangestart', '', PARAM_INT)){    
+        $year = date("Y", strtotime($form->listdates[0]));
+        $month = date("m", strtotime($form->listdates[0]));
+        $day = date("d", strtotime($form->listdates[0]));
+        $form->rangestart = make_timestamp($year, $month, $day);//first date in the list
+        $form->starthour = required_param('starthour', PARAM_INT);
+        $form->startminute = required_param('startminute', PARAM_INT);
+        $form->timestart = make_timestamp($year, $month, $day, $form->starthour, $form->startminute);//first date/time in the list
+    }
+    if (!$form->rangeend = optional_param('rangeend', '', PARAM_INT)){    
+        $year = date("Y", strtotime($form->listdates[(count($form->listdates)-1)]));
+        $month = date("m", strtotime($form->listdates[(count($form->listdates)-1)]));
+        $day = date("d", strtotime($form->listdates[(count($form->listdates)-1)]));
+        $form->rangeend = make_timestamp($year, $month, $day);//last date in the list
+        $form->endhour = required_param('endhour', PARAM_INT);
+        $form->endminute = required_param('endminute', PARAM_INT);
+        $form->timeend = make_timestamp($year, $month, $day, $form->endhour, $form->endminute);//last date/time in the list
+    }
+	
     $form->forcewhenoverlap = required_param('forcewhenoverlap', PARAM_INT);
     $form->exclusivity = required_param('exclusivity', PARAM_INT);
     $form->reuse = required_param('reuse', PARAM_INT);
@@ -127,8 +123,7 @@ function get_aperiod_session_data(&$form){
     $form->appointmentlocation = optional_param('appointmentlocation', '', PARAM_CLEAN);
     $form->emailfrom = required_param('emailfrom', PARAM_CLEAN);
     $form->displayfrom = required_param('displayfrom', PARAM_CLEAN);
-	
-	print_r($listdatestxt);//debug
+		
 }
 
     /**
@@ -360,7 +355,7 @@ if ($action == 'schedule') {
             $form->what = 'doaddupdateslot';
             $form->slotid = 0;
             $form->starttime = time();
-            $form->duration = 15;
+            $form->duration = $scheduler->defaultslotduration;//was 15
             $form->reuse = 1;
             $form->exclusivity = 1;
             $form->hideuntil = $scheduler->timemodified; // supposed being in the past so slot is visible
@@ -476,7 +471,7 @@ if ($action == 'schedulegroup') {
             $form->what = 'doaddupdateslot';
             $form->slotid = 0;
             $form->starttime = time();
-            $form->duration = 15;
+            $form->duration = $scheduler->defaultslotduration;//was 15
             $form->reuse = 1;
             $form->exclusivity = 1;
             $form->hideuntil = $scheduler->timemodified; // supposed being in the past so slot is visible
