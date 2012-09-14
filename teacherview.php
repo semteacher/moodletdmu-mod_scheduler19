@@ -146,7 +146,8 @@ if ($action == 'addslot'){
         // blank appointment data
         if (empty($form->appointments)) $form->appointments = array();
         $form->starttime = time();
-        $form->duration = 15;
+//        $form->duration = 15;
+		$form->duration = $scheduler->defaultslotduration;//set default
         $form->reuse = 1;
         $form->exclusivity = 1;
         $form->hideuntil = $scheduler->timemodified; // supposed being in the past so slot is visible
@@ -253,13 +254,15 @@ if ($action == 'addsession') {
         $form->rangestart = time();
         $form->rangeend = time();
         $form->timestart = time();
-        $form->timeend = time() + HOURSECS;
+//        $form->timeend = time() + HOURSECS;
+		//time end propouse time interval with length 5 minutes more than default duration - guarantee for one slot
+        $form->timeend = time() + ($scheduler->defaultslotduration+5)*60;
         $form->hideuntil = $scheduler->timemodified;
         $form->duration = $scheduler->defaultslotduration;
         $form->forcewhenoverlap = 0;
         $form->teacherid = $USER->id;
         $form->exclusivity = 1;
-        $form->duration = $scheduler->defaultslotduration;
+//        $form->duration = $scheduler->defaultslotduration;
         $form->reuse = 1;
         $form->monday = 1;
         $form->tuesday = 1;
@@ -295,9 +298,10 @@ if ($action == 'addaperiodsession') {
         $form = &$data;
     } else {
         $form->rangestart = time();
-        $form->rangeend = time();//todo-delete
+        $form->rangeend = time();
         $form->timestart = time();
-        $form->timeend = time() + HOURSECS;
+		//time end propouse time interval with length 5 minutes more than default duration - guarantee for one slot
+        $form->timeend = time() + ($scheduler->defaultslotduration+5)*60;
         $form->hideuntil = $scheduler->timemodified;
         $form->duration = $scheduler->defaultslotduration;
         $form->forcewhenoverlap = 0;
@@ -305,13 +309,6 @@ if ($action == 'addaperiodsession') {
         $form->exclusivity = 1;
         $form->duration = $scheduler->defaultslotduration;
         $form->reuse = 1;
-        $form->monday = 1;//todo-delete
-        $form->tuesday = 1;//todo-delete
-        $form->wednesday = 1;//todo-delete
-        $form->thursday = 1;//todo-delete
-        $form->friday = 1;//todo-delete
-        $form->saturday = 0;//todo-delete
-        $form->sunday = 0;//todo-delete
     }
 
     print_heading(get_string('addaperiodsession', 'scheduler'));

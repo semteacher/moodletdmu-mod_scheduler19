@@ -13,7 +13,7 @@ $(function()
 {
 	$('#multiInlinePicker').calendarsPicker({dateFormat: 'dd/mm/yyyy', 
     multiSelect: 999, monthsToShow: 4, monthsToStep: 4, 
-    prevText: '<Prev months', nextText: 'Next months>', minDate: '<?php echo date("d/m/Y",$form->rangestart) ?>'});
+    prevText: '<Prev months', nextText: 'Next months>', minDate: '<?php echo date("d/m/Y",$form->rangestart) ?>', showTrigger: '#calImg'});
 });
 function getMultipleDates()
 {
