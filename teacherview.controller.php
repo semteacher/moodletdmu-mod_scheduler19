@@ -98,11 +98,12 @@ switch ($action) {
                     echo get_string('slotwarning', 'scheduler').'<br/><br/>';
                     foreach ($conflicts as $conflict) {
                         $students = scheduler_get_appointed($conflict->id);
-                        
+
                         echo (!empty($students)) ? '<b>' : '' ;
-                        echo userdate($conflict->starttime);
+                        //bellow - display date-time according current site/user settings
+                        echo scheduler_userdate($conflict->starttime,1).' '.scheduler_usertime($conflict->starttime,1);
                         echo ' [';
-                        echo $conflict->duration.' '.get_string('minutes');
+                        echo get_string('duration', 'scheduler').' '.$conflict->duration.' '.get_string('minutes');//aded 'duration' text
                         echo ']<br/>';
                         
                         if ($students){
