@@ -417,7 +417,7 @@ switch ($action) {
 		for ($d = 0; $d <= count($data->listdates)-1; $d ++){
                 $noslotsallowed = false;
 				$data->starttime = strtotime($data->listdates[$d]);		
-                $conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, false, SCHEDULER_ALL);
+                $conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
                 if (!$data->forcewhenoverlap){
                     if ($conflicts){
                         unset($erroritem);
@@ -472,7 +472,7 @@ switch ($action) {
                     $slot->emaildate = make_timestamp($eventdate['year'], $eventdate['mon'], $eventdate['mday'], 0, 0) - $data->emailfrom;
                 }
                 while ($slot->starttime <= $data->timeend - $data->duration * 60) {
-                    $conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, false, SCHEDULER_ALL);
+                    $conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
                     if ($conflicts) {
                         if (!$data->forcewhenoverlap){
                             print_string('conflictingslots', 'scheduler');
