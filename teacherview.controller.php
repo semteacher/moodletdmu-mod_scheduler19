@@ -350,7 +350,7 @@ switch ($action) {
                                       sl.id = {$aConflict->id}                                 
                                 ";
                                 $conflictinfo = get_record_sql($sql);
-                                echo '<li> ' . userdate($conflictinfo->starttime) . ' ' . usertime($conflictinfo->starttime) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
+                                echo '<li> ' . scheduler_userdate($conflictinfo->starttime, 1) . ' ' . scheduler_usertime($conflictinfo->starttime, 1) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
                             }
                             echo '</ul><br/>';
                         }
@@ -494,7 +494,7 @@ switch ($action) {
                                       sl.id = {$aConflict->id}                                 
                                 ";
                                 $conflictinfo = get_record_sql($sql);
-                                echo '<li> ' . userdate($conflictinfo->starttime) . ' ' . usertime($conflictinfo->starttime) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
+                                echo '<li> ' . scheduler_userdate($conflictinfo->starttime, 1) . ' ' . scheduler_usertime($conflictinfo->starttime, 1) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
                             }
                             echo '</ul><br/>';
                         }
