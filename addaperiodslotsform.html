@@ -1,23 +1,31 @@
 <!-- This page defines the form to add an appointment session -->
 <!-- it is used from view.php -->
-<style type="text/css">@import "<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.css" ?>";</style>
+<style type="text/css">@import "<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerydatepick406/jquery.datepick.css" ?>";</style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.js" ?>">
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerydatepick406/jquery.datepick.js" ?>">
 </script> 
-<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.plus.js" ?>">
-</script>
-<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerycalendar114/jquery.calendars.picker.js" ?>">
+<script type="text/javascript" src="<?php echo "{$CFG->wwwroot}/mod/scheduler/scripts/jquerydatepick406/jquery.datepick.lang.js" ?>">
 </script>
 <script type="text/javascript">
+<?php
+$courselang = substr($course->lang, 0, 2); 
+if ($courselang == 'en'){
+$courselang = '';
+}
+?>
 $(function()
 {
-	$('#multiInlinePicker').calendarsPicker({dateFormat: 'dd/mm/yyyy', 
-    multiSelect: 999, monthsToShow: 4, monthsToStep: 4, 
-    prevText: '<Prev months', nextText: 'Next months>', minDate: '<?php echo date("d/m/Y",$form->rangestart) ?>', showTrigger: '#calImg'});
+$.datepick.setDefaults($.datepick.regional['<?php echo $courselang ?>']);
+	$('#multiInlinePicker').datepick({showTrigger: '#calImg', dateFormat: $.datepick.TIMESTAMP, multiSelect: 999, monthsToShow: 4, monthsToStep: 4, 
+     minDate: '<?php echo $form->rangestart ?>'});
 });
 function getMultipleDates()
 {
-var listdates = $('#multiInlinePicker').calendarsPicker('getDate');
+var listdates1 = $('#multiInlinePicker').datepick('getDate');
+    var listdates = ''; 
+    for (var i = 0; i < listdates1.length; i++) { 
+        listdates += (i == 0 ? '' : ',') + $.datepick.formatDate('yyyy-mm-dd', listdates1[i]); 
+		}
     $('#getlistdates').val(listdates || '');
 }
 </script>
