@@ -58,6 +58,32 @@ function scheduler_get_attendants($cmid){
 }
 
 /**
+* Get a course info by the sheduler slot id
+* @param int $slotid the any sheduler slot id
+* @return a course shortname, fullname and selected slot starttime
+*/
+function scheduler_get_courseinfobyslotid($slotid) {
+	global $CFG;
+	
+    $sql = "
+       SELECT
+          c.fullname,
+          c.shortname,
+          sl.starttime
+       FROM
+          {$CFG->prefix}course AS c,
+          {$CFG->prefix}scheduler AS s,
+          {$CFG->prefix}scheduler_slots AS sl
+       WHERE
+          s.course = c.id AND
+          sl.schedulerid = s.id AND
+          sl.id = {$slotid}                                 
+    ";
+    $courseshortinfo = get_record_sql($sql);
+	
+	return $courseshortinfo;
+}
+/**
 * Returns an array of slots that would overlap with this one.
 * @param int $schedulerid the current activity module id
 * @param int $starttimethe start of time slot as a timestamp
