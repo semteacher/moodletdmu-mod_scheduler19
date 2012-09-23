@@ -113,6 +113,9 @@ $string['monday'] = 'Monday';
 $string['move'] = 'Change';
 $string['moveslot'] = 'Move slot';
 $string['multiplestudents'] = 'Allow multiple students per slot?';
+
+$string['multicoursesteacherappointment'] = 'Appointments within multiple courses';
+
 $string['myappointments'] = 'My Appointments';
 $string['name'] = 'Scheduler name';
 $string['needteachers'] = 'Slots cannot be added as this course has no teachers';
