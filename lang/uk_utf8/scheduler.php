@@ -113,6 +113,9 @@ $string['monday'] = 'Понеділок';
 $string['move'] = 'Змінити';
 $string['moveslot'] = 'Перемістити інтервал';
 $string['multiplestudents'] = 'Дозволити багато студентів в інтервалі?';
+
+$string['multicoursesteacherappointment'] = 'Дозволити співпадання інтервалів в різних курсах';
+
 $string['myappointments'] = 'Мої графіки прийомів';
 $string['name'] = 'Ім\'я розкладу';
 $string['needteachers'] = 'Інтервали не можуть бути додані - на курсі немає викладачів';
