@@ -29,6 +29,23 @@ if ($action == 'savechoice' && has_capability('mod/scheduler:appoint', $context)
     if (!$slot = get_record('scheduler_slots', 'id', $slotid)) {
         error('Invalid slot ID');
     }
+
+	//chek is this user are appointed to overlaped slot in the another scheduler
+    $RemoteConflict = scheduler_get_conflicts($slot->schedulerid, $slot->starttime, $slot->starttime+HOURSECS, 0, $astudentid, SCHEDULER_OTHERS, false);
+	if ($RemoteConflict) {
+       print_simple_box_start('center');
+       echo '<h2 style="color:red;">'.get_string('multicoursesappointmentoverlap', 'scheduler').'</h2>';
+       echo '<ul>';
+            foreach ($RemoteConflict as $aConflict){
+                $conflictinfo = scheduler_get_courseinfobyslotid($aConflict->id);
+                echo '<li> ' . scheduler_userdate($conflictinfo->starttime, 1) . ' ' . scheduler_usertime($conflictinfo->starttime, 1) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
+            }
+       echo '</ul><br/>';	   
+       print_simple_box_end();
+       print_continue("{$CFG->wwwroot}/mod/scheduler/view.php?id={$cm->id}");
+       print_footer($course);
+       exit();		
+	}
     
     $available = scheduler_get_appointments($slotid);
     $consumed = ($available) ? count($available) : 0 ;

@@ -115,6 +115,7 @@ $string['moveslot'] = 'Переместить интервал';
 $string['multiplestudents'] = 'Разрешить множество студентов в интервале?';
 
 $string['multicoursesteacherappointment'] = 'Разрешить совпадения интервалов в разных курсах';
+$string['multicoursesappointmentoverlap'] = 'Ошибка! Вы не можете записаться на этот интервал, поскільку уже записаны на приём в другом курсе:';
 
 $string['myappointments'] = 'Мои графики приёмов';
 $string['name'] = 'Імя расписания';

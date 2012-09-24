@@ -115,6 +115,7 @@ $string['moveslot'] = 'Move slot';
 $string['multiplestudents'] = 'Allow multiple students per slot?';
 
 $string['multicoursesteacherappointment'] = 'Appointments within multiple courses';
+$string['multicoursesappointmentoverlap'] = 'Erorr! You can not appoint to this slot because already have an another course appointed:';
 
 $string['myappointments'] = 'My Appointments';
 $string['name'] = 'Scheduler name';
