@@ -137,9 +137,13 @@
                 $startdate = scheduler_userdate($aSlot->starttime,1);
                 $starttime = scheduler_usertime($aSlot->starttime,1);
                 $endtime = scheduler_usertime($aSlot->starttime + ($aSlot->duration * 60),1);
-                $startdatestr = ($startdate == $previousdate) ? '' : $startdate ;
-                $starttimestr = ($starttime == $previoustime) ? '' : $starttime ;
-                $endtimestr = ($endtime == $previousendtime) ? '' : $endtime ;
+                //$startdatestr = ($startdate == $previousdate) ? '' : $startdate ;
+                //$starttimestr = ($starttime == $previoustime) ? '' : $starttime ;
+                //$endtimestr = ($endtime == $previousendtime) ? '' : $endtime ;
+				//Full date and time shown for each attended slots
+				$startdatestr = $startdate;
+				$starttimestr = $starttime;
+				$endtimestr = $endtime;
                 $studentappointment = get_record('scheduler_appointment', 'slotid', $aSlot->id, 'studentid', $USER->id);
                 if ($scheduler->scale  > 0){
                     $studentappointment->grade = $studentappointment->grade.'/'.$scheduler->scale;
@@ -204,8 +208,12 @@
             $starttime = scheduler_usertime($aSlot->starttime,1);
             $endtime = scheduler_usertime($aSlot->starttime + ($aSlot->duration * 60),1);
             $startdatestr = ($startdate == $previousdate) ? '' : $startdate ;
-            $starttimestr = ($starttime == $previoustime) ? '' : $starttime ;
-            $endtimestr = ($endtime == $previousendtime) ? '' : $endtime ;
+            //$starttimestr = ($starttime == $previoustime) ? '' : $starttime ;
+            //$endtimestr = ($endtime == $previousendtime) ? '' : $endtime ;
+			//Full time shown for each appointable slots
+			$startdatestr = $startdate;
+			$starttimestr = $starttime;
+			$endtimestr = $endtime;
             if ($aSlot->appointedbyme and !$aSlot->attended){
                 $radio = "<input type=\"radio\" name=\"slotid\" value=\"{$aSlot->id}\" checked=\"checked\" />\n";
                 $table->data[] = array ("<b>$startdatestr</b>", "<b>$starttime</b>", "<b>$endtime</b>", $radio, "<b>"."<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course=$scheduler->course\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a></b>','<b>'.$aSlot->groupsession.'</b>');

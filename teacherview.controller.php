@@ -102,14 +102,15 @@ switch ($action) {
                 echo "<br/><br/>";
                 print_simple_box_start('center', '', '');
                     echo get_string('slotwarning', 'scheduler').'<br/><br/>';
+					echo '<ul>';
                     foreach ($conflicts as $conflict) {
+						//display conflict info with date-time according current site/user settings and course name included in
+						$conflictinfo = scheduler_get_courseinfobyslotid($conflict->id);
+                        echo '<li> ' . scheduler_userdate($conflictinfo->starttime, 1) . ' ' . scheduler_usertime($conflictinfo->starttime, 1) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
+
+						//dislpay currently appointed students names
                         $students = scheduler_get_appointed($conflict->id);
-                        
-                        echo (!empty($students)) ? '<b>' : '' ;
-                        echo userdate($conflict->starttime);
-                        echo ' [';
-                        echo $conflict->duration.' '.get_string('minutes');
-                        echo ']<br/>';
+						echo (!empty($students)) ? '<b>' : '' ;
                         
                         if ($students){
                             $appointed = array();
@@ -126,6 +127,7 @@ switch ($action) {
                         }
                         echo (!empty($students)) ? '</b>' : '' ;
                     }
+					echo '</ul><br/>';
 
                     $options = array();
                     $options['what'] = 'addslot';
@@ -339,22 +341,8 @@ switch ($action) {
                             print_string('conflictingslots', 'scheduler');
                             echo '<ul>';
                             foreach ($conflicts as $aConflict){
-                                $sql = "
-                                   SELECT
-                                      c.fullname,
-                                      c.shortname,
-                                      sl.starttime
-                                   FROM
-                                      {$CFG->prefix}course AS c,
-                                      {$CFG->prefix}scheduler AS s,
-                                      {$CFG->prefix}scheduler_slots AS sl
-                                   WHERE
-                                      s.course = c.id AND
-                                      sl.schedulerid = s.id AND
-                                      sl.id = {$aConflict->id}                                 
-                                ";
-                                $conflictinfo = get_record_sql($sql);
-                                echo '<li> ' . userdate($conflictinfo->starttime) . ' ' . usertime($conflictinfo->starttime) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
+								$conflictinfo = scheduler_get_courseinfobyslotid($aConflict->id);
+                                echo '<li> ' . scheduler_userdate($conflictinfo->starttime, 1) . ' ' . scheduler_usertime($conflictinfo->starttime, 1) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
                             }
                             echo '</ul><br/>';
                         }
