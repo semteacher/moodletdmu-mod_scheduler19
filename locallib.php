@@ -419,14 +419,14 @@ function scheduler_get_user_appointments(&$scheduler, $user=null){
 
 	$sql = "
 		SELECT
-			a.*
+			sa.*
 		FROM
 			{$CFG->prefix}scheduler_appointment sa,
 			{$CFG->prefix}scheduler_slots ss
 		WHERE
 			sa.slotid =  ss.id AND
 			ss.schedulerid = $scheduler->id	AND
-			sa.userid = $user->id		
+			sa.studentid = $user->id		
 	";        
 	$apps = get_records_sql($sql);
     
