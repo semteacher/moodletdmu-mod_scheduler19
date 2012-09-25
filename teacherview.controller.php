@@ -70,9 +70,15 @@ switch ($action) {
         }
 
         // Avoid overlapping slots, by asking the user if they'd like to overwrite the existing ones...
-        // for other scheduler, we check independently of exclusivity. Any slot here conflicts
+        // for other scheduler, we check independently of exclusivity
+		// depend to the allowmulticoursesteacherappointment parameter. Any slot here conflicts
         // for this scheduler, we check against exclusivity. Any complete slot here conflicts
-        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, false);
+        if ($scheduler->allowmulticoursesteacherappointment) {
+			$conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
+		}
+		else {
+			$conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, false);			
+		}
         $conflictsLocal = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_SELF, false);
         if (!$conflictsRemote) $conflictsRemote = array();
         if (!$conflictsLocal) $conflictsLocal = array();

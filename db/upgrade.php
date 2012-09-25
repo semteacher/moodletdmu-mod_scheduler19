@@ -156,6 +156,13 @@ function xmldb_scheduler_upgrade($oldversion = 0) {
         $result = $result && add_index($table, $index);
     }
 
+	 if ($result && $oldversion < 2012093000) {
+    /// Define field allowmulticoursesteacherappointment to be added to scheduler table	
+		$table = new XMLDBTable('scheduler');	
+        $field = new XMLDBField('allowmulticoursesteacherappointment');
+        $field->setAttributes(XMLDB_TYPE_INTEGER, '4', false, XMLDB_NOTNULL, false, false, null, 0, 'defaultslotduration');
+		$result = $result && add_field($table, $field);
+	}
     
     return $result;
 }
