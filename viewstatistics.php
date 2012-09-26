@@ -148,7 +148,8 @@
            ";
            if ($statrecords = get_records_sql($sql)) {
              foreach($statrecords as $aRecord){
-                $table->data[] = array (fullname($students[$aRecord->studentid]), $aRecord->totaltime);
+                $aStudent = get_record('user', 'id', $aRecord->studentid);
+                $table->data[] = array (fullname($aStudent), $aRecord->totaltime);
              }
 
              uasort($table->data, 'byName');
