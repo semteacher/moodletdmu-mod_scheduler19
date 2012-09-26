@@ -160,6 +160,9 @@ $string['return'] = 'Вернуться к курсу';
 $string['reuse'] = 'Повторное использование этого интервала';
 $string['reuseguardtime'] = 'Защитный интервал для повторного использования';
 $string['revoke'] = 'Анулиовать график приёма';
+
+$string['rework_def'] = 'отработки';
+
 $string['saturday'] = 'Суббота';
 $string['save'] = 'Сохранить';
 $string['savechoice'] = 'Сохранить мой выбор';
