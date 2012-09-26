@@ -160,6 +160,9 @@ $string['return'] = 'Back to course';
 $string['reuse'] = 'Reuse this slot';
 $string['reuseguardtime'] = 'Reuse guard time';
 $string['revoke'] = 'Revoke the appointment';
+
+$string['rework_def'] = 'reworks';
+
 $string['saturday'] = 'Saturday';
 $string['save'] = 'Save';
 $string['savechoice'] = 'Save my choice';

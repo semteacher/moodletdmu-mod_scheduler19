@@ -28,6 +28,7 @@ class mod_scheduler_mod_form extends moodleform_mod {
 	    $mform->addElement('text', 'name', get_string('name'), array('size'=>'64'));
 	    $mform->setType('name', PARAM_CLEANHTML);
 	    $mform->addRule('name', null, 'required', null, 'client');
+		$mform->setDefault('name', $COURSE->shortname.'-'.get_string('rework_def', 'scheduler'));
 
 	    $mform->addElement('htmleditor', 'description', get_string('description'));
 	    $mform->setType('description', PARAM_RAW);
@@ -53,13 +54,13 @@ class mod_scheduler_mod_form extends moodleform_mod {
 	    $mform->addElement('text', 'defaultslotduration', get_string('defaultslotduration', 'scheduler'), array('size'=>'2'));
 	    $mform->setType('defaultslotduration', PARAM_INT);
 	    $mform->setHelpButton('defaultslotduration', array('defaultslotduration', get_string('defaultslotduration', 'scheduler'), 'scheduler'));
-        $mform->setDefault('defaultslotduration', 15);
+        $mform->setDefault('defaultslotduration', 330);
 
         $yesno[0] = get_string('no');
         $yesno[1] = get_string('yes');		
 		$mform->addElement('select', 'allowmulticoursesteacherappointment', get_string('multicoursesteacherappointment', 'scheduler'), $yesno);
 	    $mform->setHelpButton('allowmulticoursesteacherappointment', array('multicoursesappointment', get_string('multicoursesteacherappointment', 'scheduler'), 'scheduler'));
-		$mform->setDefault('allowmulticoursesteacherappointment', $yesno[0]);
+		$mform->setDefault('allowmulticoursesteacherappointment', $yesno[1]);
 
          $mform->addElement('modgrade', 'scale', get_string('grade'));
          $mform->setDefault('scale', 0);
