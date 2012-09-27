@@ -28,7 +28,7 @@ class mod_scheduler_mod_form extends moodleform_mod {
 	    $mform->addElement('text', 'name', get_string('name'), array('size'=>'64'));
 	    $mform->setType('name', PARAM_CLEANHTML);
 	    $mform->addRule('name', null, 'required', null, 'client');
-		$mform->setDefault('name', get_string('rework_def', 'scheduler').'-'.$COURSE->shortname);
+		$mform->setDefault('name', get_string('rework_def', 'scheduler').' - '.$COURSE->shortname);
 
 	    $mform->addElement('htmleditor', 'description', get_string('description'));
 	    $mform->setType('description', PARAM_RAW);
@@ -37,6 +37,7 @@ class mod_scheduler_mod_form extends moodleform_mod {
 	    $mform->addElement('text', 'staffrolename', get_string('staffrolename', 'scheduler'), array('size'=>'48'));
 	    $mform->setType('name', PARAM_CLEANHTML);
 	    $mform->setHelpButton('staffrolename', array('staffrolename', get_string('staffrolename', 'scheduler'), 'scheduler'));
+        $mform->setDefault('staffrolename', get_string('defaultcourseteacher'));
 	
 	    $modeoptions['onetime'] = get_string('oneatatime', 'scheduler');
 	    $modeoptions['oneonly'] = get_string('oneappointmentonly', 'scheduler');
@@ -58,12 +59,12 @@ class mod_scheduler_mod_form extends moodleform_mod {
 
         $yesno[0] = get_string('no');
         $yesno[1] = get_string('yes');		
-		$mform->addElement('select', 'allowmulticoursesteacherappointment', get_string('multicoursesteacherappointment', 'scheduler'), $yesno);
+        $mform->addElement('select', 'allowmulticoursesteacherappointment', get_string('multicoursesteacherappointment', 'scheduler'), $yesno);
 	    $mform->setHelpButton('allowmulticoursesteacherappointment', array('multicoursesappointment', get_string('multicoursesteacherappointment', 'scheduler'), 'scheduler'));
-		$mform->setDefault('allowmulticoursesteacherappointment', 1);
+        $mform->setDefault('allowmulticoursesteacherappointment', 1);
 
-         $mform->addElement('modgrade', 'scale', get_string('grade'));
-         $mform->setDefault('scale', 0);
+        $mform->addElement('modgrade', 'scale', get_string('grade'));
+        $mform->setDefault('scale', 0);
  
 	    $mform->addElement('select', 'allownotifications', get_string('notifications', 'scheduler'), $yesno);
 	    $mform->setHelpButton('allownotifications', array('notifications', get_string('notifications', 'scheduler'), 'scheduler'));
