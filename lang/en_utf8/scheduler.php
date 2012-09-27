@@ -161,7 +161,7 @@ $string['reuse'] = 'Reuse this slot';
 $string['reuseguardtime'] = 'Reuse guard time';
 $string['revoke'] = 'Revoke the appointment';
 
-$string['rework_def'] = 'reworks';
+$string['rework_def'] = 'Reworks';
 
 $string['saturday'] = 'Saturday';
 $string['save'] = 'Save';

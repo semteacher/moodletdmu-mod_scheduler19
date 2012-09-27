@@ -28,7 +28,7 @@ class mod_scheduler_mod_form extends moodleform_mod {
 	    $mform->addElement('text', 'name', get_string('name'), array('size'=>'64'));
 	    $mform->setType('name', PARAM_CLEANHTML);
 	    $mform->addRule('name', null, 'required', null, 'client');
-		$mform->setDefault('name', $COURSE->shortname.'-'.get_string('rework_def', 'scheduler'));
+		$mform->setDefault('name', get_string('rework_def', 'scheduler').'-'.$COURSE->shortname);
 
 	    $mform->addElement('htmleditor', 'description', get_string('description'));
 	    $mform->setType('description', PARAM_RAW);
