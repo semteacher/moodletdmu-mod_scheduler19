@@ -273,7 +273,17 @@ switch ($action) {
                 (($dayofweek == 'Sunday') && ($data->sunday == 1))){
                 $noslotsallowed = false;
                 $data->starttime = $startfrom + ($d * 86400);
-                $conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
+				if ($scheduler->allowmulticoursesteacherappointment) {
+			        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
+                }
+                else {
+                     $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, false);			
+                }
+                $conflictsLocal = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_SELF, false);
+                if (!$conflictsRemote) $conflictsRemote = array();
+                if (!$conflictsLocal) $conflictsLocal = array();
+                $conflicts = $conflictsRemote + $conflictsLocal;				
+                //$conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
                 if (!$data->forcewhenoverlap){
                     if ($conflicts){
                         unset($erroritem);
@@ -336,7 +346,17 @@ switch ($action) {
                 // echo " generating from " .userdate($slot->starttime)." till ".userdate($data->timeend). " ";
                 // echo " generating on " . ($data->timeend - $slot->starttime) / 60;
                 while ($slot->starttime <= $data->timeend - $data->duration * 60) {
-                    $conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
+				    if ($scheduler->allowmulticoursesteacherappointment) {
+			            $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
+                    }
+                    else {
+                        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, false);			
+                    }
+                    $conflictsLocal = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_SELF, false);
+                    if (!$conflictsRemote) $conflictsRemote = array();
+                    if (!$conflictsLocal) $conflictsLocal = array();
+                    $conflicts = $conflictsRemote + $conflictsLocal;		
+                    //$conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
                     if ($conflicts) {
                         if (!$data->forcewhenoverlap){
                             print_string('conflictingslots', 'scheduler');
@@ -410,8 +430,18 @@ switch ($action) {
         $noslotsallowed = true;
 		for ($d = 0; $d <= count($data->listdates)-1; $d ++){
                 $noslotsallowed = false;
-				$data->starttime = strtotime($data->listdates[$d]);		
-                $conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
+				$data->starttime = strtotime($data->listdates[$d]);
+				if ($scheduler->allowmulticoursesteacherappointment) {
+			        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
+                }
+                else {
+                    $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, false);			
+                }
+                $conflictsLocal = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_SELF, false);
+                if (!$conflictsRemote) $conflictsRemote = array();
+                if (!$conflictsLocal) $conflictsLocal = array();
+                $conflicts = $conflictsRemote + $conflictsLocal;				
+                //$conflicts = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
                 if (!$data->forcewhenoverlap){
                     if ($conflicts){
                         unset($erroritem);
@@ -466,27 +496,23 @@ switch ($action) {
                     $slot->emaildate = make_timestamp($eventdate['year'], $eventdate['mon'], $eventdate['mday'], 0, 0) - $data->emailfrom;
                 }
                 while ($slot->starttime <= $data->timeend - $data->duration * 60) {
-                    $conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
+				    if ($scheduler->allowmulticoursesteacherappointment) {
+			            $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
+                    }
+                    else {
+                        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, false);			
+                    }
+                    $conflictsLocal = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_SELF, false);
+                    if (!$conflictsRemote) $conflictsRemote = array();
+                    if (!$conflictsLocal) $conflictsLocal = array();
+                    $conflicts = $conflictsRemote + $conflictsLocal;                    
+					//$conflicts = scheduler_get_conflicts($scheduler->id, $data->timestart, $data->timestart + $data->duration * 60, $data->teacherid, 0, SCHEDULER_ALL, false);
                     if ($conflicts) {
                         if (!$data->forcewhenoverlap){
                             print_string('conflictingslots', 'scheduler');
                             echo '<ul>';
                             foreach ($conflicts as $aConflict){
-                                $sql = "
-                                   SELECT
-                                      c.fullname,
-                                      c.shortname,
-                                      sl.starttime
-                                   FROM
-                                      {$CFG->prefix}course AS c,
-                                      {$CFG->prefix}scheduler AS s,
-                                      {$CFG->prefix}scheduler_slots AS sl
-                                   WHERE
-                                      s.course = c.id AND
-                                      sl.schedulerid = s.id AND
-                                      sl.id = {$aConflict->id}                                 
-                                ";
-                                $conflictinfo = get_record_sql($sql);
+                                $conflictinfo = scheduler_get_courseinfobyslotid($aConflict->id);
                                 echo '<li> ' . scheduler_userdate($conflictinfo->starttime, 1) . ' ' . scheduler_usertime($conflictinfo->starttime, 1) . ' ' . get_string('incourse', 'scheduler') . ': ' . $conflictinfo->shortname . ' - ' . $conflictinfo->fullname . "</li>\n";
                             }
                             echo '</ul><br/>';
