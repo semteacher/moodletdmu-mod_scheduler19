@@ -146,7 +146,6 @@ if ($action == 'addslot'){
         // blank appointment data
         if (empty($form->appointments)) $form->appointments = array();
         $form->starttime = time();
-//        $form->duration = 15;
 		$form->duration = $scheduler->defaultslotduration;//set default
         $form->reuse = 1;
         $form->exclusivity = 1;
@@ -251,18 +250,17 @@ if ($action == 'addsession') {
         get_session_data($data);
         $form = &$data;
     } else {
+        $form->duration = $scheduler->defaultslotduration;
         $form->rangestart = time();
         $form->rangeend = time();
-        $form->timestart = time();
-//        $form->timeend = time() + HOURSECS;
+        //$form->timestart = time();
+        $form->timestart = make_timestamp(date('Y',$form->rangestart), date('m',$form->rangestart), date('d',$form->rangestart), 15, 30);
 		//time end propouse time interval with length 5 minutes more than default duration - guarantee for one slot
-        $form->timeend = time() + ($scheduler->defaultslotduration+5)*60;
+        $form->timeend = $form->timestart + ($form->duration+5)*60;
         $form->hideuntil = $scheduler->timemodified;
-        $form->duration = $scheduler->defaultslotduration;
         $form->forcewhenoverlap = 0;
         $form->teacherid = $USER->id;
         $form->exclusivity = 1;
-//        $form->duration = $scheduler->defaultslotduration;
         $form->reuse = 1;
         $form->monday = 1;
         $form->tuesday = 1;
@@ -297,17 +295,17 @@ if ($action == 'addaperiodsession') {
         get_aperiod_session_data($data);
         $form = &$data;
     } else {
+        $form->duration = $scheduler->defaultslotduration;
         $form->rangestart = time();
         $form->rangeend = time();
-        $form->timestart = time();
+        //$form->timestart = time();
+        $form->timestart = make_timestamp(date('Y',$form->rangestart), date('m',$form->rangestart), date('d',$form->rangestart), 15, 30);
 		//time end propouse time interval with length 5 minutes more than default duration - guarantee for one slot
-        $form->timeend = time() + ($scheduler->defaultslotduration+5)*60;
+        $form->timeend = $form->timestart + ($form->duration+5)*60;
         $form->hideuntil = $scheduler->timemodified;
-        $form->duration = $scheduler->defaultslotduration;
         $form->forcewhenoverlap = 0;
         $form->teacherid = $USER->id;
         $form->exclusivity = 1;
-        $form->duration = $scheduler->defaultslotduration;
         $form->reuse = 1;
     }
 
