@@ -148,7 +148,7 @@ if ($action == 'addslot'){
         $form->starttime = time();
 		$form->duration = $scheduler->defaultslotduration;//set default
         $form->reuse = 1;
-        $form->exclusivity = 1;
+        $form->exclusivity = 12;
         $form->hideuntil = $scheduler->timemodified; // supposed being in the past so slot is visible
         $form->notes = '';
         $form->teacherid = $USER->id;
@@ -260,7 +260,7 @@ if ($action == 'addsession') {
         $form->hideuntil = $scheduler->timemodified;
         $form->forcewhenoverlap = 0;
         $form->teacherid = $USER->id;
-        $form->exclusivity = 1;
+        $form->exclusivity = 12;
         $form->reuse = 1;
         $form->monday = 1;
         $form->tuesday = 1;
@@ -305,7 +305,7 @@ if ($action == 'addaperiodsession') {
         $form->hideuntil = $scheduler->timemodified;
         $form->forcewhenoverlap = 0;
         $form->teacherid = $USER->id;
-        $form->exclusivity = 1;
+        $form->exclusivity = 12;
         $form->reuse = 1;
     }
 

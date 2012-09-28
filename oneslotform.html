@@ -109,7 +109,7 @@ if($action == 'schedule' or $action == 'schedulegroup'){
             $exclusivemenu['0'] = get_string('unlimited', 'scheduler');
             $knownslots = count($form->appointments);
             if ($knownslots == 0) $knownslots++;            
-            for($i = $knownslots ; $i < 10 ; $i++){
+            for($i = $knownslots ; $i < 13 ; $i++){
                 $exclusivemenu[(string)$i] = $i;
             }
             choose_from_menu($exclusivemenu, 'exclusivity', $form->exclusivity, '', 'allowmoreappointments(this);');

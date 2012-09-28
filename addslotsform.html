@@ -112,7 +112,7 @@ if (has_capability('mod/scheduler:canscheduletootherteachers', $context)){
         <td align="left">
             <?php
                 $exclusivemenu['0'] = get_string('unlimited', 'scheduler');
-                for($i = 1 ; $i < 10 ; $i++){
+                for($i = 1 ; $i < 13 ; $i++){
                     $exclusivemenu[(string)$i] = $i;
                 }
                 choose_from_menu($exclusivemenu, 'exclusivity', $form->exclusivity, '');
