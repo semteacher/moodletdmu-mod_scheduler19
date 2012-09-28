@@ -109,7 +109,8 @@ function scheduler_get_conflicts($schedulerid, $starttime, $endtime, $teacher=0,
     }
     $teacherScope = ($teacher != 0) ? " s.teacherid = '{$teacher}' AND " : '' ;
     $studentScope = ($student != 0) ? " a.studentid = '{$student}' AND " : '' ;
-    $exclusiveClause = ($careexclusive) ? " exclusivity != 0 AND " : '' ;
+    //$exclusiveClause = ($careexclusive) ? " exclusivity != 0 AND " : '' ;
+    $exclusiveClause = ($careexclusive) ? " exclusivity = 1 AND " : '' ;//TDMU
     $sql = "
         SELECT
             s.*,
