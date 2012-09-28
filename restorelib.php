@@ -66,6 +66,7 @@
             $scheduler->schedulermode = backup_todb($info['MOD']['#']['SCHEDULERMODE']['0']['#']);
             $scheduler->reuseguardtime = backup_todb($info['MOD']['#']['REUSEGUARDTIME']['0']['#']);
             $scheduler->defaultslotduration = backup_todb($info['MOD']['#']['DEFAULTSLOTDURATION']['0']['#']);
+            $scheduler->allowmulticoursesteacherappointment = backup_todb($info['MOD']['#']['MULTICOURSEAPPOITMENT']['0']['#']);
             $scheduler->staffrolename = backup_todb($info['MOD']['#']['STAFFROLENAME']['0']['#']);
             $scheduler->allownotifications = backup_todb($info['MOD']['#']['ALLOWNOTIFICATIONS']['0']['#']);
             $scheduler->teacher = backup_todb($info['MOD']['#']['TEACHER']['0']['#']);
