@@ -73,7 +73,7 @@
         fwrite ($bf, full_tag('SCHEDULERMODE', 4, false, $scheduler->schedulermode));
         fwrite ($bf, full_tag('REUSEGUARDTIME', 4, false, $scheduler->reuseguardtime));
         fwrite ($bf, full_tag('DEFAULTSLOTDURATION', 4, false, $scheduler->defaultslotduration));
-        fwrite ($bf, full_tag('MULTICOURSEAPPOITMENT', 4, false, $scheduler->allowmulticoursesteacherappointment));
+        fwrite ($bf, full_tag('MULTICOURSEAPPOITMENT', 4, false, $scheduler->allowmulticourseappointment));
         fwrite ($bf, full_tag('ALLOWNOTIFICATIONS', 4, false, $scheduler->allownotifications));
         fwrite ($bf, full_tag('TIMEMODIFIED', 4, false, $scheduler->timemodified));
 

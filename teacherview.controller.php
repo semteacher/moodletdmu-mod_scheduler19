@@ -70,9 +70,9 @@ switch ($action) {
 
         // Avoid overlapping slots, by asking the user if they'd like to overwrite the existing ones...
         // for other scheduler, we check independently of exclusivity
-		// depend to the allowmulticoursesteacherappointment parameter. Any slot here conflicts
+		// depend to the allowmulticourseappointment parameter. Any slot here conflicts
         // for this scheduler, we check against exclusivity. Any complete slot here conflicts
-        if ($scheduler->allowmulticoursesteacherappointment) {
+        if ($scheduler->allowmulticourseappointment) {
 			$conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
 		}
 		else {
@@ -272,7 +272,7 @@ switch ($action) {
                 (($dayofweek == 'Sunday') && ($data->sunday == 1))){
                 $noslotsallowed = false;
                 $data->starttime = $startfrom + ($d * 86400);
-				if ($scheduler->allowmulticoursesteacherappointment) {
+				if ($scheduler->allowmulticourseappointment) {
 			        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
                 }
                 else {
@@ -345,7 +345,7 @@ switch ($action) {
                 // echo " generating from " .userdate($slot->starttime)." till ".userdate($data->timeend). " ";
                 // echo " generating on " . ($data->timeend - $slot->starttime) / 60;
                 while ($slot->starttime <= $data->timeend - $data->duration * 60) {
-     				if ($scheduler->allowmulticoursesteacherappointment) {
+     				if ($scheduler->allowmulticourseappointment) {
 		     	        $conflictsRemote = scheduler_get_conflicts($scheduler->id, $data->starttime, $data->starttime + $data->duration * 60, $data->teacherid, 0, SCHEDULER_OTHERS, true);	
                     }
                     else {
