@@ -64,7 +64,7 @@ class mod_scheduler_mod_form extends moodleform_mod {
 		$mform->setDefault('allowmulticourseappointment', 0);
 
         $mform->addElement('modgrade', 'scale', get_string('grade'));
-        $mform->setDefault('scale', 0);
+        $mform->setDefault('scale', 12);
  
 	    $mform->addElement('select', 'allownotifications', get_string('notifications', 'scheduler'), $yesno);
 	    $mform->setHelpButton('allownotifications', array('notifications', get_string('notifications', 'scheduler'), 'scheduler'));
@@ -73,6 +73,7 @@ class mod_scheduler_mod_form extends moodleform_mod {
         $gradingstrategy[SCHEDULER_MAX_GRADE] = get_string('maxgrade', 'scheduler');
 	    $mform->addElement('select', 'gradingstrategy', get_string('gradingstrategy', 'scheduler'), $gradingstrategy);
 	    $mform->setHelpButton('gradingstrategy', array('gradingstrategy', get_string('gradingstrategy', 'scheduler'), 'scheduler'));
+        $mform->setDefault('gradingstrategy', 1);
         $mform->disabledIf('gradingstrategy', 'scale', 'eq', 0);
 
         $features = new stdClass;
