@@ -678,12 +678,12 @@ if ($slots){
     
     // prepare slots table
     if ($page == 'myappointments'){
-        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, $straction);
-        $table->align = array ('CENTER', 'LEFT', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'LEFT', 'CENTER');
+        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, $straction, get_string('studentcomments','scheduler'));
+        $table->align = array ('CENTER', 'LEFT', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'LEFT', 'CENTER', 'LEFT');
         $table->width = '80%';
     } else {
-        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, format_string($scheduler->staffrolename), $straction);
-        $table->align = array ('CENTER', 'LEFT', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'LEFT', 'LEFT', 'CENTER');
+        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, format_string($scheduler->staffrolename), $straction, get_string('studentcomments','scheduler'));
+        $table->align = array ('CENTER', 'LEFT', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'LEFT', 'LEFT', 'CENTER', 'LEFT');
         $table->width = '80%';
     }
     $offsetdatemem = '';
@@ -804,11 +804,18 @@ if ($slots){
             $actions .= "&nbsp;<a href=\"view.php?what=reuse&amp;id={$cm->id}&amp;slotid={$slot->id}&amp;page={$page}\" title=\"{$strreused}\" ><img src=\"pix/volatile.gif\" alt=\"{$strreused}\" border=\"0\" /></a>";
         }
         $actions .= '</span>';
+        
+        $teachernotes = '';
+        if ($slot->notes != ''){
+            $teachernotes = '<div class="slotnotes">';
+            $teachernotes .= format_string($slot->notes).'</div>';
+        }
+        
         if($page == 'myappointments'){
-            $table->data[] = array ($selectcheck, ($offsetdate == $offsetdatemem) ? '' : $offsetdate, $offsettime, $endtime, implode("\n",$studentArray), $actions);
+            $table->data[] = array ($selectcheck, ($offsetdate == $offsetdatemem) ? '' : $offsetdate, $offsettime, $endtime, implode("\n",$studentArray), $actions, $teachernotes);
         } else {
             $teacherlink = "<a href=\"$CFG->wwwroot/user/view.php?id={$slot->teacherid}\">".fullname(get_record('user', 'id', $slot->teacherid))."</a>";
-            $table->data[] = array ($selectcheck, ($offsetdate == $offsetdatemem) ? '' : $offsetdate, $offsettime, $endtime, implode("\n",$studentArray), $teacherlink, $actions);
+            $table->data[] = array ($selectcheck, ($offsetdate == $offsetdatemem) ? '' : $offsetdate, $offsettime, $endtime, implode("\n",$studentArray), $teacherlink, $actions, $teachernotes);
         }
         $offsetdatemem = $offsetdate;
     }
