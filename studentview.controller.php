@@ -30,6 +30,8 @@ if ($action == 'savechoice' && has_capability('mod/scheduler:appoint', $context)
         error('Invalid slot ID');
     }
 
+    $astudentid = $USER->id; //?? TDMU 
+    
 	//chek is this user are appointed to overlaped slot in the another scheduler
     $RemoteConflict = scheduler_get_conflicts($slot->schedulerid, $slot->starttime, $slot->starttime+HOURSECS, 0, $astudentid, SCHEDULER_OTHERS, false);
 	if ($RemoteConflict) {
