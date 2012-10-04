@@ -678,11 +678,11 @@ if ($slots){
     
     // prepare slots table
     if ($page == 'myappointments'){
-        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, $straction, get_string('studentcomments','scheduler'));
+        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, $straction, get_string('notes','scheduler'));
         $table->align = array ('CENTER', 'LEFT', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'LEFT', 'CENTER', 'LEFT');
         $table->width = '80%';
     } else {
-        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, format_string($scheduler->staffrolename), $straction, get_string('studentcomments','scheduler'));
+        $table->head  = array ('', $strdate, $strstart, $strend, $strstudents, format_string($scheduler->staffrolename), $straction, get_string('notes','scheduler'));
         $table->align = array ('CENTER', 'LEFT', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'LEFT', 'LEFT', 'CENTER', 'LEFT');
         $table->width = '80%';
     }

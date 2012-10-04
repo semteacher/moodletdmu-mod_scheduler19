@@ -196,7 +196,7 @@
 
         print_heading(get_string('slots' ,'scheduler'));
         unset($table);
-        $table->head  = array ($strdate, $strstart, $strend, get_string('choice', 'scheduler'), format_string($scheduler->staffrolename), get_string('groupsession', 'scheduler'), get_string('studentcomments', 'scheduler'));
+        $table->head  = array ($strdate, $strstart, $strend, get_string('choice', 'scheduler'), format_string($scheduler->staffrolename), get_string('groupsession', 'scheduler'), $strnote);
         $table->align = array ('LEFT', 'LEFT', 'CENTER', 'CENTER', 'LEFT', 'LEFT');
         $table->data = array();
         $previousdate = '';
