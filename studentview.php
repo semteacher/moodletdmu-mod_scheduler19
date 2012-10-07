@@ -252,8 +252,17 @@
         if (count($table->data)){
 ?>
         <center>
-        <form name="appoint" action="view.php" method="get">
+        <script type="text/javascript">
+        function geStudentNotes(){
+            if (document.forms['appoint'].elements['studentsnotes'].value !=''){
+                var studnotes = prompt('<?php get_string('getstudentsnotes', 'scheduler') ?>','');
+                $('#getstudenstnotes').val(studnotes || '');
+            }
+        }
+        </script>		
+        <form name="appoint" action="view.php" method="get" onSubmit=geStudentNotes()>
         <input type="hidden" name="what" value="savechoice" />
+		<input type="hidden" id="getstudenstnotes" name="studentsnotes" value="" />
         <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
         <script type="text/javascript">
         function checkGroupAppointment(enable){

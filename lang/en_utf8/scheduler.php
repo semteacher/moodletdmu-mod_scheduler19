@@ -84,6 +84,9 @@ $string['forcewhenoverlap'] = 'Force when overlap';
 $string['forcourses'] = 'Choose students in courses';
 $string['friday'] = 'Friday';
 $string['generalconfig'] = 'General configuration';
+
+$string['getstudentsnotes'] = 'Reason for an appointment required:'; // @TDMU
+
 $string['gradingstrategy'] = 'Grading strategy';
 $string['group'] = 'group ';
 $string['groupbreakdown'] = 'By group size'; // @DYNA
