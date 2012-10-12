@@ -84,6 +84,10 @@ $string['forcewhenoverlap'] = 'Примусово перекривати';
 $string['forcourses'] = 'Виберіть студентів на курсі';
 $string['friday'] = 'П\'ятниця';
 $string['generalconfig'] = 'Загальні налаштування';
+
+$string['getstudentsnotes'] = 'Необхідно вказати підстави для запису на прийом:'; // @TDMU
+$string['getstudentsnoteserr'] = 'Примітки є обов\'язковими! Зміни не будуть збережені. Спробуйте ще раз!'; // @TDMU
+
 $string['gradingstrategy'] = 'Методика оцінювання';
 $string['group'] = 'група ';
 $string['groupbreakdown'] = 'За розміром групи'; // @DYNA

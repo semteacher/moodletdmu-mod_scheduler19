@@ -86,6 +86,7 @@ $string['friday'] = 'Friday';
 $string['generalconfig'] = 'General configuration';
 
 $string['getstudentsnotes'] = 'Reason for an appointment required:'; // @TDMU
+$string['getstudentsnoteserr'] = 'Notes are required! Changes has not been saved. Please try again!'; // @TDMU
 
 $string['gradingstrategy'] = 'Grading strategy';
 $string['group'] = 'group ';

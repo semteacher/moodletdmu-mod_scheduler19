@@ -164,6 +164,14 @@ function xmldb_scheduler_upgrade($oldversion = 0) {
 		$result = $result && add_field($table, $field);
 	}
     
+	 if ($result && $oldversion < 2012101200) {
+    /// Define field allowmulticourseappointment to be added to scheduler table	
+		$table = new XMLDBTable('scheduler_appointment');	
+        $field = new XMLDBField('studentteachernotes');
+        $field->setAttributes(XMLDB_TYPE_TEXT, '', false, false, false, false, null, '', 'timemodified');
+		$result = $result && add_field($table, $field);
+	}
+    
     return $result;
 }
 

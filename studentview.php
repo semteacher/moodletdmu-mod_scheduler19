@@ -223,6 +223,7 @@
 
             if ($aSlot->appointedbyme and !$aSlot->attended){
                 $radio = "<input type=\"radio\" name=\"slotid\" value=\"{$aSlot->id}\" checked=\"checked\" />\n";
+                $mynotes2teacher = $aSlot->studentteachernotes;//retreive student notes from slot data array
                 $table->data[] = array ("<b>$startdatestr</b>", "<b>$starttime</b>", "<b>$endtime</b>", $radio, "<b>"."<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course=$scheduler->course\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a></b>','<b>'.$aSlot->groupsession.'</b>', $teachernotes);
             } else {
                 if ($aSlot->appointed and has_capability('mod/scheduler:seeotherstudentsbooking', $context)){
@@ -253,17 +254,22 @@
 ?>
         <center>
         <script type="text/javascript">
-        function geStudentNotes(){
-            if (document.forms['appoint'].elements['studentsnotes'].value !=''){
-                var studnotes = prompt('<?php get_string('getstudentsnotes', 'scheduler') ?>','');
-                $('#getstudenstnotes').val(studnotes || '');
-            }
+        function geStudentNotes(currform){
+                ///var studnotes = prompt('<?php echo get_string('getstudentsnotes', 'scheduler') ?>', currform.getstudenstnotes.value);
+                ///currform.getstudenstnotes.value = studnotes;
+                currform.getstudenstnotes.value = prompt('<?php echo get_string('getstudentsnotes', 'scheduler') ?>', currform.getstudenstnotes.value);
+                if (currform.getstudenstnotes.value != ''){
+                    currform.submit();//submit if stydents notes does not empty
+                }else{
+                   var err = alert('<?php echo get_string('getstudentsnoteserr', 'scheduler') ?>');
+                   currform.reset(); //reset if stydents notes is empty
+                } 
         }
         </script>		
-        <form name="appoint" action="view.php" method="get" onSubmit=geStudentNotes()>
+        <form name="appoint" action="view.php" method="post" onsubmit=geStudentNotes(this)>
         <input type="hidden" name="what" value="savechoice" />
-		<input type="hidden" id="getstudenstnotes" name="studentsnotes" value="" />
         <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
+        <input type="hidden" id="getstudenstnotes" name="studentnotes" value="<?php echo($mynotes2teacher) ?>" />
         <script type="text/javascript">
         function checkGroupAppointment(enable){
             var numgroups = '<?php p(count($mygroups)) ?>';
