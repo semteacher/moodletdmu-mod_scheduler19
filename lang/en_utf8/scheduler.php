@@ -119,10 +119,13 @@ $string['move'] = 'Change';
 $string['moveslot'] = 'Move slot';
 $string['multiplestudents'] = 'Allow multiple students per slot?';
 
-$string['multicoursesteacherappointment'] = 'Appointments within multiple courses';
-$string['multicoursesappointmentoverlap'] = 'Erorr! You can not appoint to this slot because already have an another course appointed:';
+$string['multicoursesteacherappointment'] = 'Appointments within multiple courses';// @TDMU
+$string['multicoursesappointmentoverlap'] = 'Erorr! You can not appoint to this slot because already have an another course appointed:';// @TDMU
 
 $string['myappointments'] = 'My Appointments';
+
+$string['mynote'] = 'My note';// @TDMU
+
 $string['name'] = 'Scheduler name';
 $string['needteachers'] = 'Slots cannot be added as this course has no teachers';
 $string['negativerange'] = 'Range is negative. This can\'t be.';
@@ -216,6 +219,9 @@ $string['studentdetails'] = 'Student Details';
 $string['studentnotes'] = 'Your notes about&nbsp;&nbsp;<br/> the appointment ';
 $string['students'] = 'Students';
 $string['sunday'] = 'Sunday';
+
+$string['teachernote'] = 'Teacher notes'; // @TDMU
+
 $string['thursday'] = 'Thursday';
 $string['tuesday'] = 'Tuesday';
 $string['unattended'] = 'Unattended';

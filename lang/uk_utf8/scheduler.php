@@ -85,8 +85,8 @@ $string['forcourses'] = 'Виберіть студентів на курсі';
 $string['friday'] = 'П\'ятниця';
 $string['generalconfig'] = 'Загальні налаштування';
 
-$string['getstudentsnotes'] = 'Необхідно вказати підстави для запису на прийом:'; // @TDMU
-$string['getstudentsnoteserr'] = 'Примітки є обов\'язковими! Зміни не будуть збережені. Спробуйте ще раз!'; // @TDMU
+$string['getstudentsnotes'] = 'Слід вказати підстави для запису на прийом:'; // @TDMU
+$string['getstudentsnoteserr'] = 'Примітки є обов\"язковими! Зміни не будуть збережені. Спробуйте ще раз!'; // @TDMU
 
 $string['gradingstrategy'] = 'Методика оцінювання';
 $string['group'] = 'група ';
@@ -123,6 +123,9 @@ $string['multicoursesteacherappointment'] = 'Дозволити співпада
 $string['multicoursesappointmentoverlap'] = 'Помилка! Ви не можете записатися на цей інтервал, оскільки уже записані на прийом в іншому курсі:';
 
 $string['myappointments'] = 'Мої графіки прийомів';
+
+$string['mynote'] = 'Мої примітки';// @TDMU
+
 $string['name'] = 'Ім\'я розкладу';
 $string['needteachers'] = 'Інтервали не можуть бути додані - на курсі немає викладачів';
 $string['negativerange'] = 'Період негативний. Цього неможе бути.';
@@ -218,6 +221,9 @@ $string['students'] = 'Студенти';
 $string['sunday'] = 'Неділя';
 $string['thursday'] = 'Четвер';
 $string['tuesday'] = 'Вівторок';
+
+$string['teachernote'] = 'Примітки викладача'; // @TDMU
+
 $string['unattended'] = 'Незаписані';
 $string['unlimited'] = 'Без обмежень';
 $string['unregisteredlbl'] = 'Студенти без графіків прийому';

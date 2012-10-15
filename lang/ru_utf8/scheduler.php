@@ -123,6 +123,9 @@ $string['multicoursesteacherappointment'] = 'Разрешить совпаден
 $string['multicoursesappointmentoverlap'] = 'Ошибка! Вы не можете записаться на этот интервал, поскільку уже записаны на приём в другом курсе:';
 
 $string['myappointments'] = 'Мои графики приёмов';
+
+$string['mynote'] = 'Mои примечания';// @TDMU
+
 $string['name'] = 'Імя расписания';
 $string['needteachers'] = 'интервалы не могут бути добавлены - на курсе отсутствуют преподаватели';
 $string['negativerange'] = 'Период негативный. Этого неможет быть.';
@@ -216,6 +219,9 @@ $string['studentdetails'] = 'Детальная информация по сту
 $string['studentnotes'] = 'Ваши прмечания о&nbsp;&nbsp;<br/> графике приёма ';
 $string['students'] = 'Студенты';
 $string['sunday'] = 'Воскресенье';
+
+$string['teachernote'] = 'Примечания преподавателя'; // @TDMU
+
 $string['thursday'] = 'Четверг';
 $string['tuesday'] = 'Вторник';
 $string['unattended'] = 'Незаписанные';
