@@ -49,6 +49,7 @@
             a.attended,
             a.appointmentnote,
             a.grade,
+            a.studentteachernotes,
             a.timemodified as apptimemodified
         FROM 
             {$CFG->prefix}scheduler_slots AS s,
@@ -76,7 +77,7 @@
             $table->width = '80%';
         } else {
             print_heading(get_string('comments' ,'scheduler'));
-            $table->head  = array (get_string('studentcomments', 'scheduler'), get_string('comments', 'scheduler'), $straction);
+            $table->head  = array (get_string('teachernote', 'scheduler'), get_string('studentcomments', 'scheduler'), get_string('comments', 'scheduler'), $straction);
             $table->align = array ('LEFT', 'LEFT');
             $table->width = '80%';
         }
@@ -133,7 +134,7 @@
                 }
                 $commenteditor .= $distributecheck;
                 $commenteditor .= "</form>";
-                $table->data[] = array ($slot->notes.'<br/><font size=-2>'.$startdate.' '.$starttime.' to '.$endtime.'</font>', $commenteditor, $actions);
+                $table->data[] = array ($slot->notes.'<br/><font size=-2>'.$startdate.' '.$starttime.' to '.$endtime.'</font>', format_string($slot->studentteachernotes), $commenteditor, $actions);
             }
         }
         // print slots table
