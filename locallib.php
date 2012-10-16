@@ -303,6 +303,8 @@ function scheduler_get_available_slots($studentid, $schedulerid, $studentside=fa
             if ($studentside){
                 $slot->appointedbyme = record_exists('scheduler_appointment', 'slotid', $slot->id, 'studentid', $studentid);
                 if ($slot->appointedbyme) {
+                    //get notes maded by student
+                    $slot->studentteachernotes = get_field('scheduler_appointment', 'studentteachernotes', 'slotid', $slot->id, 'studentid', $studentid);
                     $retainedslots[] = $slot;
                     continue;
                 }
