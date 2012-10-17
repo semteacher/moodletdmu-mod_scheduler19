@@ -84,6 +84,8 @@ $string['forcewhenoverlap'] = 'Force when overlap';
 $string['forcourses'] = 'Choose students in courses';
 $string['friday'] = 'Friday';
 $string['generalconfig'] = 'General configuration';
+$string['getstudentsnotes'] = 'Reason for an appointment required:'; // @TDMU
+$string['getstudentsnoteserr'] = 'Notes are required! Changes has not been saved. Please try again!'; // @TDMU
 $string['gradingstrategy'] = 'Grading strategy';
 $string['group'] = 'group ';
 $string['groupbreakdown'] = 'By group size'; // @DYNA
@@ -114,11 +116,10 @@ $string['monday'] = 'Monday';
 $string['move'] = 'Change';
 $string['moveslot'] = 'Move slot';
 $string['multiplestudents'] = 'Allow multiple students per slot?';
-
-$string['multicoursesteacherappointment'] = 'Appointments within multiple courses';
-$string['multicoursesappointmentoverlap'] = 'Erorr! You can not appoint to this slot because already have an another course appointed:';
-
+$string['multicoursesteacherappointment'] = 'Appointments within multiple courses';// @TDMU
+$string['multicoursesappointmentoverlap'] = 'Erorr! You can not appoint to this slot because already have an another course appointed:';// @TDMU
 $string['myappointments'] = 'My Appointments';
+$string['mynote'] = 'My note';// @TDMU
 $string['name'] = 'Scheduler name';
 $string['needteachers'] = 'Slots cannot be added as this course has no teachers';
 $string['negativerange'] = 'Range is negative. This can\'t be.';
@@ -160,9 +161,7 @@ $string['return'] = 'Back to course';
 $string['reuse'] = 'Reuse this slot';
 $string['reuseguardtime'] = 'Reuse guard time';
 $string['revoke'] = 'Revoke the appointment';
-
-$string['rework_def'] = 'Reworks';
-
+$string['rework_def'] = 'Reworks';// @TDMU
 $string['saturday'] = 'Saturday';
 $string['save'] = 'Save';
 $string['savechoice'] = 'Save my choice';
@@ -210,8 +209,10 @@ $string['studentbreakdown'] = 'By student'; // @DYNA
 $string['studentcomments'] = 'Student\'s notes';
 $string['studentdetails'] = 'Student Details';
 $string['studentnotes'] = 'Your notes about&nbsp;&nbsp;<br/> the appointment ';
+$string['studentnotesrequiredopt'] = 'Student must input notes for the appointmet';// @TDMU
 $string['students'] = 'Students';
 $string['sunday'] = 'Sunday';
+$string['teachernote'] = 'Teacher notes'; // @TDMU
 $string['thursday'] = 'Thursday';
 $string['tuesday'] = 'Tuesday';
 $string['unattended'] = 'Unattended';

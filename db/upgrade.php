@@ -164,6 +164,20 @@ function xmldb_scheduler_upgrade($oldversion = 0) {
 		$result = $result && add_field($table, $field);
 	}
     
+	 if ($result && $oldversion < 2012101500) {
+    /// Define field studentnotesrequired to be added to scheduler table	
+		$table = new XMLDBTable('scheduler');	
+        $field = new XMLDBField('studentnotesrequired');
+        $field->setAttributes(XMLDB_TYPE_INTEGER, '4', false, XMLDB_NOTNULL, false, false, null, 0, 'allowmulticourseappointment');
+		$result = $result && add_field($table, $field);
+        
+    /// Define field studentteachernotes to be added to scheduler_appointment table	
+		$table = new XMLDBTable('scheduler_appointment');	
+        $field = new XMLDBField('studentteachernotes');
+        $field->setAttributes(XMLDB_TYPE_TEXT, 'small', null, null, null, null, null, null, 'timemodified');
+		$result = $result && add_field($table, $field);
+	}
+    
     return $result;
 }
 

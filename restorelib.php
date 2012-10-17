@@ -218,6 +218,7 @@
             $appointment->appointmentnote = backup_todb($appointment_info['#']['APPOINTMENTNOTE']['0']['#']);
             $appointment->timecreated = backup_todb($appointment_info['#']['TIMECREATED']['0']['#']);
             $appointment->timemodified = backup_todb($appointment_info['#']['TIMEMODIFIED']['0']['#']);
+            $appointment->studentteachernotes = backup_todb($appointment_info['#']['STUDENTTEACHERNOTES']['0']['#']);
 
             //We have to recode the studentid field
             $user = backup_getid($restore->backup_unique_code, 'user', $appointment->studentid);

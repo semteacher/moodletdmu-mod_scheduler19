@@ -720,8 +720,13 @@ if ($slots){
                 $student = get_record('user', 'id', $appstudent->studentid);
                 $picture = print_user_picture($appstudent->studentid, $course->id, $student->picture, 0, true, true);
                 $name = "<a href=\"view.php?what=viewstudent&amp;id={$cm->id}&amp;studentid={$student->id}&amp;course={$scheduler->course}&amp;order=DESC\">".fullname($student).'</a>';
-
                 
+                $student2teachernotestr = '';
+                if ($appstudent->studentteachernotes != ''){
+                    $student2teachernotestr = '<div class="slotnotes">';
+                    $student2teachernotestr .= '<b>'.get_string('comments', 'scheduler').'&nbsp;</b>';
+                    $student2teachernotestr .= format_string($appstudent->studentteachernotes).'</div>';
+                }               
 
                  /// formatting grade
                  $grade = scheduler_format_grade($scheduler, $appstudent->grade, true);
@@ -737,7 +742,7 @@ if ($slots){
                         $checkbox .= '<img src="pix/unticked.gif" border="0">';
                     }
                 }
-                $studentArray[] = "$checkbox $picture $name $grade<br/>";
+                $studentArray[] = "$checkbox $picture $name $student2teachernotestr $grade<br/>";
             }
             $studentArray[] = "<a href=\"javascript:document.forms['appointementseen_{$slot->id}'].submit();\">".get_string('saveseen','scheduler').'</a>';
             $studentArray[] = "</form>";

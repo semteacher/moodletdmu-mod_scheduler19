@@ -155,7 +155,8 @@
                     fwrite ($bf, full_tag('GRADE', 6, false, $appointment->grade));
                     fwrite ($bf, full_tag('APPOINTMENTNOTE', 6, false, $appointment->appointmentnote)); 
                     fwrite ($bf, full_tag('TIMECREATED', 6, false, $appointment->timecreated)); 
-                    fwrite ($bf, full_tag('TIMEMODIFIED', 6, false, $appointment->timemodified)); 
+                    fwrite ($bf, full_tag('TIMEMODIFIED', 6, false, $appointment->timemodified));
+                    fwrite ($bf, full_tag('STUDENTTEACHERNOTES', 6, false, $appointment->studentteachernotes)); 
                     //End appointment
                     $status = $status && fwrite ($bf, end_tag('APPOINTMENT', 5, true));
                 }

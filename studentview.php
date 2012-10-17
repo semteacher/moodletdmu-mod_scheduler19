@@ -123,7 +123,7 @@
 
         if (count($studentAttendedSlots)){
             print_heading(get_string('attendedslots' ,'scheduler'));
-            $table->head  = array ($strdate, format_string($scheduler->staffrolename), $strnote, $strgrade);
+            $table->head  = array ($strdate, format_string($scheduler->staffrolename), get_string('teachernote', 'scheduler'), $strgrade, get_string('mynote', 'scheduler'));
             $table->align = array ('LEFT', 'CENTER', 'LEFT', 'LEFT');
             $table->size = array ('', '', '40%', '150');
             $table->width = '90%'; 
@@ -140,7 +140,7 @@
                 //$startdatestr = ($startdate == $previousdate) ? '' : $startdate ;
                 //$starttimestr = ($starttime == $previoustime) ? '' : $starttime ;
                 //$endtimestr = ($endtime == $previousendtime) ? '' : $endtime ;
-				//Full date and time shown for each attended slots
+				//Full date and time shown for each attended slots - TDMU
 				$startdatestr = $startdate;
 				$starttimestr = $starttime;
 				$endtimestr = $endtime;
@@ -180,9 +180,14 @@
                     $studentnotes2 .= format_string($studentappointment->appointmentnote).'</div>';
                 }
                 $studentnotes = "{$studentnotes1}{$studentnotes2}";
+                $mynotes2teacherstr = '';
+                if ($aSlot->studentteachernotes != ''){
+                    $mynotes2teacherstr = '<div class="slotnotes">';
+                    $mynotes2teacherstr .= format_string($aSlot->studentteachernotes).'</div>';
+                }                
         
                 // recording data into table
-                $table->data[] = array ("<span class=\"attended\">$startdatestr</span><br/><div class=\"timelabel\">[$starttimestr - $endtimestr]</div>", "<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course={$scheduler->course}\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a>',$studentnotes, $collegues);
+                $table->data[] = array ("<span class=\"attended\">$startdatestr</span><br/><div class=\"timelabel\">[$starttimestr - $endtimestr]</div>", "<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course={$scheduler->course}\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a>',$studentnotes, $collegues, $mynotes2teacherstr);
         
                 $previoustime = $starttime;
                 $previousendtime = $endtime;
@@ -196,7 +201,7 @@
 
         print_heading(get_string('slots' ,'scheduler'));
         unset($table);
-        $table->head  = array ($strdate, $strstart, $strend, get_string('choice', 'scheduler'), format_string($scheduler->staffrolename), get_string('groupsession', 'scheduler'), $strnote);
+        $table->head  = array ($strdate, $strstart, $strend, get_string('choice', 'scheduler'), format_string($scheduler->staffrolename), get_string('groupsession', 'scheduler'), get_string('teachernote', 'scheduler'), get_string('mynote', 'scheduler'));
         $table->align = array ('LEFT', 'LEFT', 'CENTER', 'CENTER', 'LEFT', 'LEFT');
         $table->data = array();
         $previousdate = '';
@@ -223,7 +228,14 @@
 
             if ($aSlot->appointedbyme and !$aSlot->attended){
                 $radio = "<input type=\"radio\" name=\"slotid\" value=\"{$aSlot->id}\" checked=\"checked\" />\n";
-                $table->data[] = array ("<b>$startdatestr</b>", "<b>$starttime</b>", "<b>$endtime</b>", $radio, "<b>"."<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course=$scheduler->course\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a></b>','<b>'.$aSlot->groupsession.'</b>', $teachernotes);
+                $mynotes2teacher = $aSlot->studentteachernotes;//retreive student notes from slot data array
+                $mynotes2teacherstr = '';
+                if ($mynotes2teacher != ''){
+                    $mynotes2teacherstr = '<div class="slotnotes">';
+                    $mynotes2teacherstr .= format_string($mynotes2teacher).'</div>';
+                }
+                                
+                $table->data[] = array ("<b>$startdatestr</b>", "<b>$starttime</b>", "<b>$endtime</b>", $radio, "<b>"."<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course=$scheduler->course\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a></b>','<b>'.$aSlot->groupsession.'</b>', $teachernotes, $mynotes2teacherstr);
             } else {
                 if ($aSlot->appointed and has_capability('mod/scheduler:seeotherstudentsbooking', $context)){
                     $appointments = scheduler_get_appointments($aSlot->id);
@@ -240,7 +252,7 @@
                 $canappoint = true;
                 $canusegroup = ($aSlot->appointed) ? 0 : 1;
                 $radio = "<input type=\"radio\" name=\"slotid\" value=\"{$aSlot->id}\" onclick=\"checkGroupAppointment($canusegroup)\" />\n";
-                $table->data[] = array ($startdatestr, $starttimestr, $endtimestr, $radio, "<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course={$scheduler->course}\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a>', $aSlot->groupsession, $teachernotes);
+                $table->data[] = array ($startdatestr, $starttimestr, $endtimestr, $radio, "<a href=\"../../user/view.php?id={$aSlot->teacherid}&amp;course={$scheduler->course}\">".fullname(get_record('user', 'id', $aSlot->teacherid)).'</a>', $aSlot->groupsession, $teachernotes, '');
             }
             $previoustime = $starttime;
             $previousendtime = $endtime;
@@ -252,9 +264,29 @@
         if (count($table->data)){
 ?>
         <center>
-        <form name="appoint" action="view.php" method="get">
+        <script type="text/javascript">
+        function geStudentNotes(currform){
+                var studnotes = prompt('<?php echo get_string('getstudentsnotes', 'scheduler') ?>', currform.getstudenstnotes.value);
+                if (studnotes != ''){
+                    currform.getstudenstnotes.value = studnotes;
+                    currform.submit();//submit if stydents notes does not empty
+                    return true;
+                }else{
+                    if (<?php print($scheduler->studentnotesrequired) ?>){
+                        var err = alert('<?php echo get_string('getstudentsnoteserr', 'scheduler') ?>');
+                        currform.reset(); //reset if stydents notes is empty
+                        return false;
+                   }else{
+                        currform.getstudenstnotes.value = studnotes;
+                        return true;
+                   }
+                } 
+        }
+        </script>		
+        <form name="appoint" action="view.php" onsubmit="return geStudentNotes(this)" method="post">
         <input type="hidden" name="what" value="savechoice" />
         <input type="hidden" name="id" value="<?php p($cm->id) ?>" />
+        <input type="hidden" id="getstudenstnotes" name="studentnotes" value="<?php echo($mynotes2teacher) ?>" />
         <script type="text/javascript">
         function checkGroupAppointment(enable){
             var numgroups = '<?php p(count($mygroups)) ?>';
