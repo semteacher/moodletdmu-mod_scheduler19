@@ -272,9 +272,14 @@
                     currform.submit();//submit if stydents notes does not empty
                     return true;
                 }else{
-                   var err = alert('<?php echo get_string('getstudentsnoteserr', 'scheduler') ?>');
-                   currform.reset(); //reset if stydents notes is empty
-                   return false;
+                    if (<?php print($scheduler->studentnotesrequired) ?>){
+                        var err = alert('<?php echo get_string('getstudentsnoteserr', 'scheduler') ?>');
+                        currform.reset(); //reset if stydents notes is empty
+                        return false;
+                   }else{
+                        currform.getstudenstnotes.value = studnotes;
+                        return true;
+                   }
                 } 
         }
         </script>		

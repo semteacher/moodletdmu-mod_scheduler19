@@ -209,6 +209,7 @@ $string['studentbreakdown'] = 'By student'; // @DYNA
 $string['studentcomments'] = 'Student\'s notes';
 $string['studentdetails'] = 'Student Details';
 $string['studentnotes'] = 'Your notes about&nbsp;&nbsp;<br/> the appointment ';
+$string['studentnotesrequiredopt'] = 'Student must input notes for the appointmet';// @TDMU
 $string['students'] = 'Students';
 $string['sunday'] = 'Sunday';
 $string['teachernote'] = 'Teacher notes'; // @TDMU

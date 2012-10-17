@@ -209,6 +209,7 @@ $string['studentbreakdown'] = 'Студентом'; // @DYNA
 $string['studentcomments'] = 'Примітки студентів';// @TDMU update only
 $string['studentdetails'] = 'Детальна інформація по студенту';
 $string['studentnotes'] = 'Ваші примітки про&nbsp;&nbsp;<br/> графік прийому ';
+$string['studentnotesrequiredopt'] = 'Вимагати від студента ввсти примітку для запису на прийом';// @TDMU
 $string['students'] = 'Студенти';
 $string['sunday'] = 'Неділя';
 $string['thursday'] = 'Четвер';
