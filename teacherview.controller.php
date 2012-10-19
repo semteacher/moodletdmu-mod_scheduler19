@@ -198,9 +198,9 @@ switch ($action) {
             }
             print_heading(get_string('slotupdated','scheduler'));
         }
-
+        
+        delete_records('scheduler_appointment', 'slotid', $slot->id); // cleanup old appointments
         if($appointments){
-            delete_records('scheduler_appointment', 'slotid', $slot->id); // cleanup old appointments
             foreach($appointments as $appointment){ // insert updated
                 $appointment->slotid = $slot->id; // now we know !!
                 insert_record('scheduler_appointment', $appointment);
