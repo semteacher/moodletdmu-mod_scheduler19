@@ -213,7 +213,7 @@ switch ($action) {
             }
         }
         //update (increase/decrease) overlaped slots capability
-        scheduler_autoupdate_student_count($appointmentdelta, $slot, $scheduler);//TDMU
+        scheduler_autoupdate_student_count($appointmentdelta, $slot, $scheduler, 12);//TDMU
 
         scheduler_events_update($slot, $course);
         break;
@@ -598,7 +598,7 @@ switch ($action) {
             }
             
             //increase capability of the all other overlapped slots of this teacher
-            scheduler_autoupdate_student_count($appointmentdelta, $slot, $scheduler);//TDMU
+            scheduler_autoupdate_student_count($appointmentdelta, $slot, $scheduler, 12);//TDMU
 
             // delete subsequent event
             scheduler_delete_calendar_events($slot);

@@ -471,12 +471,14 @@ function scheduler_delete_appointment($appointmentid, $slot=null, $scheduler=nul
 }
 
 /**
-* This function is used only when slot overlaping in diffeent courses is enabled (allowmulticourseappointment=1).
-* It automatically decrease/increase count of the students that can be appointed to all slots that are overlapped with curent
+* This function is used only when slot overlaping for one teacher in the diffrent courses is enabled (allowmulticourseappointment=1).
+* It automatically decrease/increase count of the students that can be appointed to all slots that are overlapped with curent slot.
 * @param int $appointdelta - diference betwen current slot capability in database and now appointed students count.
 * @param obj $slot - a slot data object
+* @param obj $scheduler - a scheduler data object
+* @param int $maxexclusivity - maxium count of the student for a group appointment
 */
-function scheduler_autoupdate_student_count($appointdelta, $slot, $scheduler=null){
+function scheduler_autoupdate_student_count($appointdelta, $slot, $scheduler=null, $maxexclusivity=12){
 
     if (!$scheduler){ // fetch optimization
         $scheduler = get_record('scheduler', 'id', $slot->schedulerid);
@@ -515,10 +517,10 @@ function scheduler_autoupdate_student_count($appointdelta, $slot, $scheduler=nul
                     foreach($conflictsRemote as $conflict){
                     //increase count of free position for this slot attending
                         if ($conflict->exclusivity > 1) {//increase only not unlimited student count slots
-                            if ($conflict->exclusivity+abs($appointdelta)<=12){
+                            if ($conflict->exclusivity+abs($appointdelta)<=$maxexclusivity=12){
                                 $conflict->exclusivity = $conflict->exclusivity+abs($appointdelta);
                             } else {
-                                $conflict->exclusivity = 12;
+                                $conflict->exclusivity = $maxexclusivity=12;
                             }
                             update_record('scheduler_slots', $conflict);
                         }
