@@ -517,10 +517,10 @@ function scheduler_autoupdate_student_count($appointdelta, $slot, $scheduler=nul
                     foreach($conflictsRemote as $conflict){
                     //increase count of free position for this slot attending
                         if ($conflict->exclusivity > 1) {//increase only not unlimited student count slots
-                            if ($conflict->exclusivity+abs($appointdelta)<=$maxexclusivity=12){
+                            if ($conflict->exclusivity+abs($appointdelta)<=$maxexclusivity){
                                 $conflict->exclusivity = $conflict->exclusivity+abs($appointdelta);
                             } else {
-                                $conflict->exclusivity = $maxexclusivity=12;
+                                $conflict->exclusivity = $maxexclusivity;
                             }
                             update_record('scheduler_slots', $conflict);
                         }
